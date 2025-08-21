@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class SumTingWong {
     public static void main(String[] args) {
-        Task[] tasks = new Task[100];
+        Task[] allTasks = new Task[100];
         String botName = "SumTingWong";
         int currentIndex = 0;
 
@@ -15,17 +15,52 @@ public class SumTingWong {
         String userInput = myObj.nextLine();
 
         while (!userInput.equals("bye")) {
-            Task task = new Task(userInput);
-            tasks[currentIndex] = task;
-            currentIndex++;
 
             if (userInput.equals("list")) {
                 System.out.println("-------------------------------");
-                for (int i = 1; tasks[i] != null; i++) {
-                    System.out.println(i + ". " + tasks[i].getDiscription());
+                System.out.println("Here are the tasks in your list: ");
+                for (int i = 0; allTasks[i] != null; i++) {
+                    int temp = i + 1;
+                    System.out.println(temp
+                                        + "."
+                                        + "["
+                                        + allTasks[i].getStatusIcon()
+                                        + "] "
+                                        + allTasks[i].getDiscription());
                 }
                 System.out.println("-------------------------------");
+            } else if (userInput.startsWith("unmark")) {
+                Scanner sc = new Scanner(userInput);
+                sc.next();  // skip "unmark"
+                int markIndex = sc.nextInt() - 1;
+                allTasks[markIndex].markAsUndone();
+
+                System.out.println("------------------------------ \n"
+                        + "OK, I've marked this task as not done yet: \n"
+                        + "["
+                        + allTasks[markIndex].getStatusIcon()
+                        + "] "
+                        + allTasks[markIndex].getDiscription()
+                        + "\n------------------------------");
+            } else if (userInput.startsWith("mark")) {
+                Scanner sc = new Scanner(userInput);
+                sc.next();  // skip "mark"
+                int markIndex = sc.nextInt() - 1;
+                allTasks[markIndex].markAsDone();
+
+                System.out.println("------------------------------ \n"
+                        + "Good job I guess. I've marked this task as done: \n"
+                        + "["
+                        + allTasks[markIndex].getStatusIcon()
+                        + "] "
+                        + allTasks[markIndex].getDiscription()
+                        + "\n------------------------------");
+
             } else {
+                Task task = new Task(userInput);
+                allTasks[currentIndex] = task;
+                currentIndex++;
+
                 System.out.println("------------------------------- \n");
                 System.out.println("added: " + userInput);
                 System.out.println("------------------------------- \n");
@@ -35,7 +70,7 @@ public class SumTingWong {
         }
 
         System.out.println("------------------------------- \n");
-        System.out.println("Bye. Hope to see you again soon!");
+        System.out.println("Bye. Hope you never come back >:");
         System.out.println("------------------------------- \n");
     }
 }
