@@ -33,7 +33,7 @@ public class SumTingWong {
                 Scanner sc = new Scanner(userInput);
                 sc.next();  // skip "unmark"
                 int markIndex = sc.nextInt() - 1;
-                allTasks[markIndex].markAsUndone();
+                allTasks[markIndex].markAsNotDone();
 
                 System.out.println("------------------------------ \n"
                         + "OK, I've marked this task as not done yet: \n"
