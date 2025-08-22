@@ -23,10 +23,7 @@ public class SumTingWong {
                     int temp = i + 1;
                     System.out.println(temp
                                         + "."
-                                        + "["
-                                        + allTasks[i].getStatusIcon()
-                                        + "] "
-                                        + allTasks[i].getDiscription());
+                                        + allTasks[i].toString());
                 }
                 System.out.println("-------------------------------");
             } else if (userInput.startsWith("unmark")) {
@@ -37,10 +34,7 @@ public class SumTingWong {
 
                 System.out.println("------------------------------ \n"
                         + "OK, I've marked this task as not done yet: \n"
-                        + "["
-                        + allTasks[markIndex].getStatusIcon()
-                        + "] "
-                        + allTasks[markIndex].getDiscription()
+                        + allTasks[markIndex].toString()
                         + "\n------------------------------");
             } else if (userInput.startsWith("mark")) {
                 Scanner sc = new Scanner(userInput);
@@ -50,20 +44,64 @@ public class SumTingWong {
 
                 System.out.println("------------------------------ \n"
                         + "Good job I guess. I've marked this task as done: \n"
-                        + "["
-                        + allTasks[markIndex].getStatusIcon()
-                        + "] "
-                        + allTasks[markIndex].getDiscription()
+                        + allTasks[markIndex].toString()
                         + "\n------------------------------");
 
-            } else {
-                Task task = new Task(userInput);
+            } else if (userInput.startsWith("deadline")) {
+                String withoutCommand = userInput.substring(9); // skip first 9 characters ("deadline ")
+                String[] parts = withoutCommand.split("/by", 2);
+                String description = parts[0].trim();
+                String time = parts[1].trim();
+
+                Task task = new Deadline(description, time);
                 allTasks[currentIndex] = task;
                 currentIndex++;
 
-                System.out.println("------------------------------- \n");
-                System.out.println("added: " + userInput);
-                System.out.println("------------------------------- \n");
+                System.out.println("------------------------------ \n"
+                        + " Got it. I've added this task: \n    "
+                        + allTasks[currentIndex - 1].toString()
+                        + "\n Now you have "
+                        + currentIndex
+                        + " tasks in the list \n"
+                        + "------------------------------");
+            } else if (userInput.startsWith("todo")) {
+                String[] parts = userInput.split(" ", 2);
+                String description = parts[1];
+
+                Task task = new ToDo(description);
+                allTasks[currentIndex] = task;
+                currentIndex++;
+
+                System.out.println("------------------------------ \n"
+                        + " Got it. I've added this task: \n    "
+                        + allTasks[currentIndex - 1].toString()
+                        + "\n Now you have "
+                        + currentIndex
+                        + " tasks in the list \n"
+                        + "------------------------------");
+            } else if (userInput.startsWith("event")) {
+                String details = userInput.substring(userInput.indexOf(" ") + 1);
+
+                // Split into [description, start+end]
+                String[] parts = details.split("/from", 2);
+                String description = parts[0].trim(); // "project meeting"
+
+                // Split the time part into [start, end]
+                String[] times = parts[1].split("/to", 2);
+                String startTime = times[0].trim();   // "Mon 2pm"
+                String endTime = times[1].trim();     // "4pm"
+
+                Task task = new Event(description, startTime, endTime);
+                allTasks[currentIndex] = task;
+                currentIndex++;
+
+                System.out.println("------------------------------ \n"
+                        + " Got it. I've added this task: \n    "
+                        + allTasks[currentIndex - 1].toString()
+                        + "\n Now you have "
+                        + currentIndex
+                        + " tasks in the list \n"
+                        + "------------------------------");
             }
 
             userInput = myObj.nextLine();
