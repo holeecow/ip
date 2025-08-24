@@ -1,8 +1,9 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class SumTingWong {
     public static void main(String[] args) {
-        Task[] allTasks = new Task[100];
+        ArrayList<Task> allTasks = new ArrayList<>();
         String botName = "SumTingWong";
         int currentIndex = 0;
 
@@ -19,32 +20,32 @@ public class SumTingWong {
             if (userInput.equals("list")) {
                 System.out.println("-------------------------------");
                 System.out.println("Here are the tasks in your list: ");
-                for (int i = 0; allTasks[i] != null; i++) {
+                for (int i = 0; i < allTasks.size(); i++) {
                     int temp = i + 1;
                     System.out.println(temp
                                         + "."
-                                        + allTasks[i].toString());
+                                        + allTasks.get(i).toString());
                 }
                 System.out.println("-------------------------------");
             } else if (userInput.startsWith("unmark")) {
                 Scanner sc = new Scanner(userInput);
                 sc.next();  // skip "unmark"
                 int markIndex = sc.nextInt() - 1;
-                allTasks[markIndex].markAsNotDone();
+                allTasks.get(markIndex).markAsNotDone();
 
                 System.out.println("------------------------------ \n"
                         + "OK, I've marked this task as not done yet: \n"
-                        + allTasks[markIndex].toString()
+                        + allTasks.get(markIndex).toString()
                         + "\n------------------------------");
             } else if (userInput.startsWith("mark")) {
                 Scanner sc = new Scanner(userInput);
                 sc.next();  // skip "mark"
                 int markIndex = sc.nextInt() - 1;
-                allTasks[markIndex].markAsDone();
+                allTasks.get(markIndex).markAsDone();
 
                 System.out.println("------------------------------ \n"
                         + "Good job I guess. I've marked this task as done: \n"
-                        + allTasks[markIndex].toString()
+                        + allTasks.get(markIndex).toString()
                         + "\n------------------------------");
 
             } else if (userInput.startsWith("deadline")) {
@@ -64,12 +65,12 @@ public class SumTingWong {
                 System.out.print(description + "\n");
 
                 Task task = new Deadline(description, time);
-                allTasks[currentIndex] = task;
+                allTasks.add(task);
                 currentIndex++;
 
                 System.out.println("------------------------------ \n"
                         + " Got it. I've added this task: \n    "
-                        + allTasks[currentIndex - 1].toString()
+                        + allTasks.get(currentIndex - 1).toString()
                         + "\n Now you have "
                         + currentIndex
                         + " tasks in the list \n"
@@ -82,12 +83,12 @@ public class SumTingWong {
                 String description = parts[1];
 
                 Task task = new ToDo(description);
-                allTasks[currentIndex] = task;
+                allTasks.add(task);
                 currentIndex++;
 
                 System.out.println("------------------------------ \n"
                         + " Got it. I've added this task: \n    "
-                        + allTasks[currentIndex - 1].toString()
+                        + allTasks.get(currentIndex - 1).toString()
                         + "\n Now you have "
                         + currentIndex
                         + " tasks in the list \n"
@@ -113,12 +114,28 @@ public class SumTingWong {
                 String endTime = times[1].trim();     // "4pm"
 
                 Task task = new Event(description, startTime, endTime);
-                allTasks[currentIndex] = task;
+                allTasks.add(task);
                 currentIndex++;
 
                 System.out.println("------------------------------ \n"
                         + " Got it. I've added this task: \n    "
-                        + allTasks[currentIndex - 1].toString()
+                        + allTasks.get(currentIndex - 1).toString()
+                        + "\n Now you have "
+                        + currentIndex
+                        + " tasks in the list \n"
+                        + "------------------------------");
+            } else if (userInput.startsWith("delete")) {
+                Scanner sc = new Scanner(userInput);
+                sc.next();  // skip "delete"
+
+                int deleteIndex = sc.nextInt() - 1;
+                Task deletedTask = allTasks.get(deleteIndex);
+                allTasks.remove(deleteIndex);
+                currentIndex--;
+
+                System.out.println("------------------------------ \n"
+                        + " Noted. I've removed this task: \n    "
+                        + deletedTask.toString()
                         + "\n Now you have "
                         + currentIndex
                         + " tasks in the list \n"
