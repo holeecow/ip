@@ -50,8 +50,18 @@ public class SumTingWong {
             } else if (userInput.startsWith("deadline")) {
                 String withoutCommand = userInput.substring(9); // skip first 9 characters ("deadline ")
                 String[] parts = withoutCommand.split("/by", 2);
+                if (parts.length < 2) {
+                    throw new NoDeadlineException();
+                }
+
+                if (parts[0].isEmpty()) {
+                    throw new NoDescriptionException();
+                }
+
                 String description = parts[0].trim();
                 String time = parts[1].trim();
+
+                System.out.print(description + "\n");
 
                 Task task = new Deadline(description, time);
                 allTasks[currentIndex] = task;
@@ -65,6 +75,9 @@ public class SumTingWong {
                         + " tasks in the list \n"
                         + "------------------------------");
             } else if (userInput.startsWith("todo")) {
+                if (userInput.length() <= 4) {
+                    throw new NoDescriptionException();
+                }
                 String[] parts = userInput.split(" ", 2);
                 String description = parts[1];
 
@@ -84,6 +97,14 @@ public class SumTingWong {
 
                 // Split into [description, start+end]
                 String[] parts = details.split("/from", 2);
+
+                if (parts[0].isEmpty()) {
+                    throw new NoDescriptionException();
+                }
+
+                if (parts.length < 2) {
+                    throw new NoDateException();
+                }
                 String description = parts[0].trim(); // "project meeting"
 
                 // Split the time part into [start, end]
@@ -102,6 +123,8 @@ public class SumTingWong {
                         + currentIndex
                         + " tasks in the list \n"
                         + "------------------------------");
+            } else {
+                throw new UnknownEventException(userInput);
             }
 
             userInput = myObj.nextLine();
