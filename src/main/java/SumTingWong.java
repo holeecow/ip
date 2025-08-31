@@ -147,6 +147,8 @@ public class SumTingWong {
             userInput = myObj.nextLine();
         }
 
+        TaskManager.saveTasks(allTasks);
+
         System.out.println("------------------------------- \n");
         System.out.println("Bye. Hope you never come back >:");
         System.out.println("------------------------------- \n");
