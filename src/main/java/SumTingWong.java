@@ -3,7 +3,10 @@ import java.util.ArrayList;
 
 public class SumTingWong {
     public static void main(String[] args) {
-        ArrayList<Task> allTasks = new ArrayList<>();
+        // load the tasks from the TaskList.txt file if it exists
+        // if not allTasks will just be an empty arraylist
+        ArrayList<Task> allTasks = TaskManager.loadTasks();
+
         String botName = "SumTingWong";
         int currentIndex = 0;
 
@@ -64,7 +67,7 @@ public class SumTingWong {
 
                 System.out.print(description + "\n");
 
-                Task task = new Deadline(description, time);
+                Task task = new Deadline(description, time, false);
                 allTasks.add(task);
                 currentIndex++;
 
@@ -82,7 +85,7 @@ public class SumTingWong {
                 String[] parts = userInput.split(" ", 2);
                 String description = parts[1];
 
-                Task task = new ToDo(description);
+                Task task = new ToDo(description, false);
                 allTasks.add(task);
                 currentIndex++;
 
@@ -113,7 +116,7 @@ public class SumTingWong {
                 String startTime = times[0].trim();   // "Mon 2pm"
                 String endTime = times[1].trim();     // "4pm"
 
-                Task task = new Event(description, startTime, endTime);
+                Task task = new Event(description, startTime, endTime, false);
                 allTasks.add(task);
                 currentIndex++;
 
@@ -146,6 +149,8 @@ public class SumTingWong {
 
             userInput = myObj.nextLine();
         }
+
+        TaskManager.saveTasks(allTasks);
 
         System.out.println("------------------------------- \n");
         System.out.println("Bye. Hope you never come back >:");
