@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -52,8 +55,8 @@ public class SumTingWong {
                         + "\n------------------------------");
 
             } else if (userInput.startsWith("deadline")) {
-                String withoutCommand = userInput.substring(9); // skip first 9 characters ("deadline ")
-                String[] parts = withoutCommand.split("/by", 2);
+                String withoutName = userInput.substring(9); // skip first 9 characters ("deadline ")
+                String[] parts = withoutName.split("/by", 2);
                 if (parts.length < 2) {
                     throw new NoDeadlineException();
                 }
@@ -63,13 +66,33 @@ public class SumTingWong {
                 }
 
                 String description = parts[0].trim();
-                String time = parts[1].trim();
+                String deadline = parts[1].trim();
 
-                System.out.print(description + "\n");
+                // check if the first character of deadline is a digit (i.e. if the deadline is in the format "2/12/2019 1800")
+                if (Character.isDigit(deadline.charAt(0))) {
 
-                Task task = new Deadline(description, time, false);
-                allTasks.add(task);
-                currentIndex++;
+                    String[] deadlineParts = deadline.split(" "); // split up the deadline by space
+
+                    String dateStr = deadlineParts[0]; // "2/12/2019"
+                    String timeStr = deadlineParts[1]; // "1800"
+
+                    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+                    LocalDate date = LocalDate.parse(dateStr, dateFormatter);
+
+                    int hour = Integer.parseInt(timeStr.substring(0, 2)); // "18"
+                    int minute = Integer.parseInt(timeStr.substring(2, 4)); // "00"
+
+                    // convert the time e.g. 1800 to a LocalTime object
+                    LocalTime time = LocalTime.of(hour, minute);
+
+                    Task task = new Deadline(description, time, date, false);
+                    allTasks.add(task);
+                    currentIndex++;
+                } else {
+                    Task task = new Deadline(description, deadline, false);
+                    allTasks.add(task);
+                    currentIndex++;
+                }
 
                 System.out.println("------------------------------ \n"
                         + " Got it. I've added this task: \n    "
