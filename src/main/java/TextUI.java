@@ -1,10 +1,23 @@
 import java.util.Scanner;
 
 public class TextUI {
-    private Scanner scanner;
+    private final Scanner scanner;
+
+    private static final String DIVIDER = "------------------------------- \n";
+
+    private static final String BOT_NAME = "SumTingWong";
 
     public TextUI() {
         this.scanner = new Scanner(System.in);
+    }
+
+    public static String getDIVIDER() {
+        return DIVIDER;
+    }
+
+    public void showWelcomeMessage() {
+        System.out.println(DIVIDER + "Hello! I'm " + BOT_NAME + "\n"
+                + "What can I do for you? -.-\n" + DIVIDER);
     }
 
     public void showMessage(String message) {

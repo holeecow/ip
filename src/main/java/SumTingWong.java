@@ -6,7 +6,22 @@ import java.util.ArrayList;
 
 public class SumTingWong {
 
-    public static void main(String[] args) {
+    private Storage storage;
+    private TaskList tasks;
+    private static TextUI textUI;
+
+    public SumTingWong(String filePath) {
+        textUI = new TextUI();
+        storage = new Storage(filePath);
+        try {
+            tasks = new TaskList(storage.loadTasks());
+        } catch (SumTingWongException e) {
+            textUI.showError(e.getMessage());
+            tasks = new TaskList();
+        }
+    }
+
+    public void run() {
         // load the tasks from the TaskList.txt file if it exists
         // if not allTasks will just be an empty arraylist
         ArrayList<Task> allTasks = Storage.loadTasks();
@@ -14,13 +29,9 @@ public class SumTingWong {
         String botName = "SumTingWong";
         int currentIndex = 0;
 
-        System.out.println("------------------------------- \n");
-        System.out.println("Hello! I'm " + botName + "\n"
-                            + "What can I do for you? -.-");
-        System.out.println("------------------------------- \n");
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        textUI.showWelcomeMessage();
 
-        String userInput = myObj.nextLine();
+        String userInput = textUI.getUserInput();
 
         while (!userInput.equals("bye")) {
 
@@ -30,8 +41,8 @@ public class SumTingWong {
                 for (int i = 0; i < allTasks.size(); i++) {
                     int temp = i + 1;
                     System.out.println(temp
-                                        + "."
-                                        + allTasks.get(i).toString());
+                            + "."
+                            + allTasks.get(i).toString());
                 }
                 System.out.println("-------------------------------");
             } else if (userInput.startsWith("unmark")) {
@@ -171,7 +182,7 @@ public class SumTingWong {
                 throw new UnknownEventException(userInput);
             }
 
-            userInput = myObj.nextLine();
+            userInput = textUI.getUserInput();
         }
 
         Storage.saveTasks(allTasks);
@@ -179,5 +190,9 @@ public class SumTingWong {
         System.out.println("------------------------------- \n");
         System.out.println("Bye. Hope you never come back >:");
         System.out.println("------------------------------- \n");
+    }
+
+    public static void main(String[] args) {
+        new SumTingWong("data/tasks.txt").run();
     }
 }
