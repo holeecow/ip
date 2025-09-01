@@ -50,16 +50,7 @@ public class SumTingWong {
 //
 //        while (!userInput.equals("bye")) {
 //
-//            if (userInput.equals("list")) {
-//                System.out.println("-------------------------------");
-//                System.out.println("Here are the tasks in your list: ");
-//                for (int i = 0; i < allTasks.size(); i++) {
-//                    int temp = i + 1;
-//                    System.out.println(temp
-//                            + "."
-//                            + allTasks.get(i).toString());
-//                }
-//                System.out.println("-------------------------------");
+
 //            } else if (userInput.startsWith("unmark")) {
 //                Scanner sc = new Scanner(userInput);
 //                sc.next();  // skip "unmark"

@@ -57,4 +57,12 @@ public class TextUI {
     public void showError(String message) {
         System.out.println("Error: " + message);
     }
+
+    public void showUnMarkMessage(int listIndex) {
+        taskList.get(listIndex).markAsNotDone();
+        System.out.println(DIVIDER
+                + "OK, I've marked this task as not done yet: \n"
+                + taskList.get(listIndex).toString()
+                + "\n" + DIVIDER);
+    }
 }

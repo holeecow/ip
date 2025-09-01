@@ -2,22 +2,19 @@ import java.util.ArrayList;
 
 public class Parser {
 
-    private ArrayList<String> commands;
-
     private TextUI textUI;
 
     private static boolean isExit = false;
 
     public Parser(TextUI ui) {
         this.textUI = ui;
-        this.commands = new ArrayList<>();
     }
 
     public void parseCommand(String userInput) {
         // Split the input based on spaces to get the command and arguments
         String[] parts = userInput.split(" ", 2);
         String command = parts[0].toLowerCase();  // Command e.g. "add", "list"
-        String description = parts.length > 1 ? parts[1] : "";  // Task description or argument
+        String description = parts.length > 1 ? parts[1] : "";  // Remaining task description
 
         // Switch case for handling different commands
         switch (command) {
@@ -25,13 +22,21 @@ public class Parser {
                 handleListCommand();
                 break;
             case "unmark":
-                handleByeCommand();
+                handleUnMarkCommand(description);
                 break;
             case "bye":
                 handleByeCommand();
                 break;
         }
     }
+
+    private void handleUnMarkCommand(String description) {
+
+        int listIndex = Integer.parseInt(description) - 1;  // "2"
+
+        textUI.showUnMarkMessage(listIndex);
+    }
+
     // Handle the "add" command (e.g., add task)
     private String handleAddCommand(String argument) {
         if (argument.isEmpty()) {
