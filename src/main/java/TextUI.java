@@ -3,21 +3,35 @@ import java.util.Scanner;
 public class TextUI {
     private final Scanner scanner;
 
+    private TaskList taskList;
+
     private static final String DIVIDER = "------------------------------- \n";
 
     private static final String BOT_NAME = "SumTingWong";
 
-    public TextUI() {
+    public TextUI(TaskList taskList) {
         this.scanner = new Scanner(System.in);
+        this.taskList = taskList;
     }
 
     public static String getDIVIDER() {
         return DIVIDER;
     }
 
+    public void showListMessage() {
+        System.out.println(DIVIDER
+                + "Here are the tasks in your list: \n"
+                + taskList.toString()
+                + DIVIDER);
+    }
+
     public void showWelcomeMessage() {
         System.out.println(DIVIDER + "Hello! I'm " + BOT_NAME + "\n"
                 + "What can I do for you? -.-\n" + DIVIDER);
+    }
+
+    public void showByeMessage() {
+        System.out.println(DIVIDER + "Bye. Hope you never come back >: \n" + DIVIDER);
     }
 
     public void showMessage(String message) {

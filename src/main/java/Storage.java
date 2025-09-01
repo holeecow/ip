@@ -10,7 +10,7 @@ public class Storage {
     private static String filePath;
 
     public Storage(String filePath) {
-        this.filePath = filePath;
+        Storage.filePath = filePath;
     }
 
     public static void saveTasks(ArrayList<Task> tasks) {
@@ -53,6 +53,7 @@ public class Storage {
         ArrayList<Task> tasks = new ArrayList<>();
 
         try {
+            System.out.println("Loading tasks from file: " + filePath);
             File file = new File(filePath);
 
             // if the file doesn't exist, return empty task list
