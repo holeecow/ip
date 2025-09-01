@@ -4,16 +4,16 @@ public class Parser {
 
     private ArrayList<String> commands;
 
-    private static TextUI UI;
+    private TextUI textUI;
 
     private static boolean isExit = false;
 
     public Parser(TextUI ui) {
-        UI = ui;
+        this.textUI = ui;
         this.commands = new ArrayList<>();
     }
 
-    public static void parseCommand(String userInput) {
+    public void parseCommand(String userInput) {
         // Split the input based on spaces to get the command and arguments
         String[] parts = userInput.split(" ", 2);
         String command = parts[0].toLowerCase();  // Command e.g. "add", "list"
@@ -41,8 +41,8 @@ public class Parser {
     }
 
     // Handle the "list" command (e.g., show task list)
-    private static void handleListCommand() {
-        UI.showListMessage();
+    private void handleListCommand() {
+        textUI.showListMessage();
     }
 
     // Handle the "delete" command (e.g., delete task)
@@ -53,8 +53,8 @@ public class Parser {
         return "Deleting task: " + argument;  // You can integrate this with the task deletion logic
     }
 
-    private static void handleByeCommand() {
-        UI.showByeMessage();
+    private void handleByeCommand() {
+        this.textUI.showByeMessage();
         isExit = true;
     }
 

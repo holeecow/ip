@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class TextUI {
     private final Scanner scanner;
 
-    private TaskList taskList;
+    private static TaskList taskList;
 
     private static final String DIVIDER = "------------------------------- \n";
 
@@ -11,7 +11,7 @@ public class TextUI {
 
     public TextUI(TaskList taskList) {
         this.scanner = new Scanner(System.in);
-        this.taskList = taskList;
+        TextUI.taskList = taskList;
     }
 
     public static String getDIVIDER() {
@@ -19,6 +19,7 @@ public class TextUI {
     }
 
     public void showListMessage() {
+        System.out.println("this is the list in TextUI.java: " + taskList.toString());
         System.out.println(DIVIDER
                 + "Here are the tasks in your list: \n"
                 + taskList.toString()

@@ -1,22 +1,23 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SumTingWong {
 
     private Storage storage;
     private TaskList taskList;
-    private static TextUI textUI;
+    private TextUI textUI;
     private Parser parser;
 
     public SumTingWong(String filePath) {
-        storage = new Storage(filePath);
+        this.storage = new Storage(filePath);
 
         try {
             this.taskList = new TaskList(storage.loadTasks());
 
-            textUI = new TextUI(taskList);
+            textUI = new TextUI(this.taskList);
             parser = new Parser(textUI);
         } catch (SumTingWongException e) {
             textUI.showError(e.getMessage());
@@ -32,7 +33,7 @@ public class SumTingWong {
         while (!isExit) {
             try {
                 String fullCommand = textUI.getUserInput();
-                Parser.parseCommand(fullCommand);
+                parser.parseCommand(fullCommand);
                 isExit = parser.isExit();
             } catch (SumTingWongException e) {
                 textUI.showError(e.getMessage());
