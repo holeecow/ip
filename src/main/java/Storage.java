@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TaskManager {
+public class Storage {
     private static final String FILE_PATH = "./data/TaskList.txt";
 
     public static void saveTasks(ArrayList<Task> tasks) {

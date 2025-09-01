@@ -5,10 +5,11 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class SumTingWong {
+
     public static void main(String[] args) {
         // load the tasks from the TaskList.txt file if it exists
         // if not allTasks will just be an empty arraylist
-        ArrayList<Task> allTasks = TaskManager.loadTasks();
+        ArrayList<Task> allTasks = Storage.loadTasks();
 
         String botName = "SumTingWong";
         int currentIndex = 0;
@@ -173,7 +174,7 @@ public class SumTingWong {
             userInput = myObj.nextLine();
         }
 
-        TaskManager.saveTasks(allTasks);
+        Storage.saveTasks(allTasks);
 
         System.out.println("------------------------------- \n");
         System.out.println("Bye. Hope you never come back >:");
