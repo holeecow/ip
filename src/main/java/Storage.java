@@ -6,8 +6,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TaskManager {
-    private static final String FILE_PATH = "./data/TaskList.txt";
+public class Storage {
+    private static String filePath;
+
+    public Storage(String filePath) {
+        Storage.filePath = filePath;
+    }
 
     public static void saveTasks(ArrayList<Task> tasks) {
         try {
@@ -18,7 +22,7 @@ public class TaskManager {
             }
 
             // create the TaskList.txt file if it doesn't exist
-            File file = new File(FILE_PATH);
+            File file = new File(filePath);
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -49,7 +53,7 @@ public class TaskManager {
         ArrayList<Task> tasks = new ArrayList<>();
 
         try {
-            File file = new File(FILE_PATH);
+            File file = new File(filePath);
 
             // if the file doesn't exist, return empty task list
             if (!file.exists()) {
