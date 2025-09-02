@@ -1,3 +1,5 @@
+package sumtingwong.ui;
+
 public class Task {
     protected String description;
     protected boolean isDone;
@@ -11,10 +13,6 @@ public class Task {
     public String getStatusIcon() {
 
         return (isDone ? "X" : " ");
-    }
-
-    public String getDiscription(){
-        return this.description;
     }
 
     public void markAsDone() {
@@ -38,7 +36,7 @@ public class Task {
             return new Deadline(description, deadline, isDone);
         }
 
-        // task is an Event
+        // task is an sumtingwong.ui.Event
         String from = parts[3].trim();
         String to = parts[4].trim();
         return new Event(description, from, to, isDone);

@@ -1,3 +1,5 @@
+package sumtingwong.ui;
+
 public class NoDescriptionException extends SumTingWongException {
     public NoDescriptionException() {
         super("No description found");
