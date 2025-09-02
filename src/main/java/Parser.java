@@ -36,6 +36,9 @@ public class Parser {
             case "todo":
                 handleToDoCommand(description);
                 break;
+            case "event":
+                handleEventCommand(description);
+                break;
             case "bye":
                 handleByeCommand();
                 break;
@@ -81,17 +84,17 @@ public class Parser {
     }
 
     private void handleDeadlineCommand(String description) {
-        String[] descriptionParts = description.split("/by", 2);
-        if (descriptionParts.length < 2) {
+        String[] parts = description.split("/by", 2);
+        if (parts.length < 2) {
             throw new NoDeadlineException();
         }
 
-        if (descriptionParts[0].isEmpty()) {
+        if (parts[0].isEmpty()) {
             throw new NoDescriptionException();
         }
 
-        String deadlineDescription = descriptionParts[0].trim();
-        String deadline = descriptionParts[1].trim();
+        String deadlineDescription = parts[0].trim();
+        String deadline = parts[1].trim();
 
         // check if the first character of deadline is a digit (i.e. if the deadline is in the format "2/12/2019 1800")
         if (Character.isDigit(deadline.charAt(0))) {
@@ -124,6 +127,27 @@ public class Parser {
         }
         Task task = new ToDo(description, false);
         textUI.showToDoMessage(task);
+    }
+
+    private void handleEventCommand(String description) {
+        String[] parts = description.split("/from", 2);
+
+        if (parts[0].isEmpty()) {
+            throw new NoDescriptionException();
+        }
+
+        if (parts.length < 2) {
+            throw new NoDateException();
+        }
+        String eventDescription = parts[0].trim(); // "project meeting"
+
+        // Split the time part into [start, end]
+        String[] times = parts[1].split("/to", 2);
+        String startTime = times[0].trim();   // "Mon 2pm"
+        String endTime = times[1].trim();     // "4pm"
+
+        Task task = new Event(eventDescription, startTime, endTime, false);
+        textUI.showEventMessage(task);
     }
 
     public boolean isExit() {

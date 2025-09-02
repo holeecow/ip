@@ -43,17 +43,6 @@ public class TextUI {
         return scanner.nextLine().trim();
     }
 
-    public void showTaskList(TaskList tasks) {
-        if (tasks.isEmpty()) {
-            showMessage("No tasks available.");
-        } else {
-            showMessage("Here are the tasks:");
-            for (int i = 0; i < tasks.size(); i++) {
-                showMessage(tasks.get(i).toString());
-            }
-        }
-    }
-
     public void showError(String message) {
         System.out.println("Error: " + message);
     }
@@ -90,6 +79,17 @@ public class TextUI {
         System.out.println(DIVIDER
                 + "Got it. I've added this task: \n    "
                 + todo.toString()
+                + "\nNow you have "
+                + taskList.size()
+                + " tasks in the list \n"
+                + DIVIDER);
+    }
+
+    public void showEventMessage(Task event) {
+        taskList.add(event);
+        System.out.println(DIVIDER
+                + "Got it. I've added this task: \n    "
+                + event.toString()
                 + "\nNow you have "
                 + taskList.size()
                 + " tasks in the list \n"
