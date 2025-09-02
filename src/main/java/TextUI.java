@@ -65,4 +65,12 @@ public class TextUI {
                 + taskList.get(listIndex).toString()
                 + "\n" + DIVIDER);
     }
+
+    public void showMarkMessage(int listIndex) {
+        taskList.get(listIndex).markAsDone();
+        System.out.println(DIVIDER
+                + "Nice! I've marked this task as done: \n"
+                + taskList.get(listIndex).toString()
+                + "\n" + DIVIDER);
+    }
 }

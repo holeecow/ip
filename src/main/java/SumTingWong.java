@@ -37,6 +37,8 @@ public class SumTingWong {
                 isExit = parser.isExit();
             } catch (SumTingWongException e) {
                 textUI.showError(e.getMessage());
+            } finally {
+                Storage.saveTasks(taskList.getTasks());
             }
         }
     }

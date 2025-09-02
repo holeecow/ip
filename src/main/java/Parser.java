@@ -24,6 +24,9 @@ public class Parser {
             case "unmark":
                 handleUnMarkCommand(description);
                 break;
+            case "mark":
+                handleMarkCommand(description);
+                break;
             case "bye":
                 handleByeCommand();
                 break;
@@ -31,13 +34,18 @@ public class Parser {
     }
 
     private void handleUnMarkCommand(String description) {
-
         int listIndex = Integer.parseInt(description) - 1;  // "2"
 
         textUI.showUnMarkMessage(listIndex);
     }
 
-    // Handle the "add" command (e.g., add task)
+    private void handleMarkCommand(String description) {
+        int listIndex = Integer.parseInt(description) - 1;  // "2"
+
+        textUI.showMarkMessage(listIndex);
+    }
+
+    // Handle the "add" command
     private String handleAddCommand(String argument) {
         if (argument.isEmpty()) {
             return "The task description cannot be empty!";
@@ -45,12 +53,12 @@ public class Parser {
         return "Adding task: " + argument;  // You could integrate this with the TaskManager class
     }
 
-    // Handle the "list" command (e.g., show task list)
+    // Handle the "list" command
     private void handleListCommand() {
         textUI.showListMessage();
     }
 
-    // Handle the "delete" command (e.g., delete task)
+    // Handle the "delete" command
     private String handleDeleteCommand(String argument) {
         if (argument.isEmpty()) {
             return "Please specify the task number to delete.";
