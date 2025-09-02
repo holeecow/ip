@@ -35,10 +35,6 @@ public class TextUI {
         System.out.println(DIVIDER + "Bye. Hope you never come back >: \n" + DIVIDER);
     }
 
-    public void showMessage(String message) {
-        System.out.println(message);
-    }
-
     public String getUserInput() {
         return scanner.nextLine().trim();
     }
@@ -91,6 +87,19 @@ public class TextUI {
                 + "Got it. I've added this task: \n    "
                 + event.toString()
                 + "\nNow you have "
+                + taskList.size()
+                + " tasks in the list \n"
+                + DIVIDER);
+    }
+
+    public void showDeleteMessage(int listIndex) {
+        Task deletedTask = taskList.get(listIndex);
+        taskList.remove(listIndex);
+
+        System.out.println(DIVIDER
+                + " Noted. I've removed this task: \n    "
+                + deletedTask.toString()
+                + "\n Now you have "
                 + taskList.size()
                 + " tasks in the list \n"
                 + DIVIDER);

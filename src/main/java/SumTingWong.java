@@ -42,42 +42,6 @@ public class SumTingWong {
             }
         }
     }
-//    public void run() {
-//
-//        int currentIndex = 0;
-//
-//        textUI.showWelcomeMessage();
-//
-//        String userInput = textUI.getUserInput();
-//
-//        while (!userInput.equals("bye")) {
-//            } else if (userInput.startsWith("delete")) {
-//                Scanner sc = new Scanner(userInput);
-//                sc.next();  // skip "delete"
-//
-//                int deleteIndex = sc.nextInt() - 1;
-//                Task deletedTask = allTasks.get(deleteIndex);
-//                allTasks.remove(deleteIndex);
-//                currentIndex--;
-//
-//                System.out.println("------------------------------ \n"
-//                        + " Noted. I've removed this task: \n    "
-//                        + deletedTask.toString()
-//                        + "\n Now you have "
-//                        + currentIndex
-//                        + " tasks in the list \n"
-//                        + "------------------------------");
-//            } else {
-//                throw new UnknownEventException(userInput);
-//            }
-//
-//            userInput = textUI.getUserInput();
-//        }
-//
-//        System.out.println("------------------------------- \n");
-//        System.out.println("Bye. Hope you never come back >:");
-//        System.out.println("------------------------------- \n");
-//    }
 
     public static void main(String[] args) {
         new SumTingWong("data/TaskList.txt").run();

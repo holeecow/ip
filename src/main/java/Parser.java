@@ -39,9 +39,14 @@ public class Parser {
             case "event":
                 handleEventCommand(description);
                 break;
+            case "delete":
+                handleDeleteCommand(description);
+                break;
             case "bye":
                 handleByeCommand();
                 break;
+            default:
+                throw new UnknownEventException(command);
         }
     }
 
@@ -71,11 +76,10 @@ public class Parser {
     }
 
     // Handle the "delete" command
-    private String handleDeleteCommand(String argument) {
-        if (argument.isEmpty()) {
-            return "Please specify the task number to delete.";
-        }
-        return "Deleting task: " + argument;  // You can integrate this with the task deletion logic
+    private void handleDeleteCommand(String description) {
+        int listIndex = Integer.parseInt(description) - 1;  // "2"
+
+        textUI.showDeleteMessage(listIndex);
     }
 
     private void handleByeCommand() {
