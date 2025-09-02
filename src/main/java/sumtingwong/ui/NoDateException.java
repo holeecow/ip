@@ -1,3 +1,5 @@
+package sumtingwong.ui;
+
 public class NoDateException extends RuntimeException {
     public NoDateException() {
         super("No date found");

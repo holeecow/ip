@@ -1,3 +1,5 @@
+package sumtingwong.ui;
+
 public class Event extends Task{
 
     protected String from;

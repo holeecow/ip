@@ -1,6 +1,6 @@
-public class ToDo extends Task{
+package sumtingwong.ui;
 
-    protected String by;
+public class ToDo extends Task{
 
     public ToDo(String description, boolean isDone) {
         super(description, isDone);

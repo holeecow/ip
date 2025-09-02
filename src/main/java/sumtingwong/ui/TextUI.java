@@ -1,3 +1,5 @@
+package sumtingwong.ui;
+
 import java.util.Scanner;
 
 public class TextUI {
@@ -19,7 +21,6 @@ public class TextUI {
     }
 
     public void showListMessage() {
-        System.out.println("this is the list in TextUI.java: " + taskList.toString());
         System.out.println(DIVIDER
                 + "Here are the tasks in your list: \n"
                 + taskList.toString()

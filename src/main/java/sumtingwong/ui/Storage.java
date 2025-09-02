@@ -1,3 +1,5 @@
+package sumtingwong.ui;
+
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -21,7 +23,7 @@ public class Storage {
                 directory.mkdirs();
             }
 
-            // create the TaskList.txt file if it doesn't exist
+            // create the sumtingwong.ui.TaskList.txt file if it doesn't exist
             File file = new File(filePath);
             if (!file.exists()) {
                 file.createNewFile();

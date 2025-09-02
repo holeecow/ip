@@ -17,7 +17,7 @@ IF ERRORLEVEL 1 (
 REM no error here, errorlevel == 0
 
 REM run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
-java -classpath ..\bin SumTingWong < input.txt > ACTUAL.txt
+java -classpath ..\bin sumtingwong.ui.SumTingWong < input.txt > ACTUAL.txt
 
 REM Normalize ACTUAL.TXT by trimming trailing spaces and rewriting with consistent encoding
 powershell -NoProfile -Command "(Get-Content 'ACTUAL.TXT') |%% { $_.TrimEnd() } | Set-Content -Encoding Unicode 'ACTUAL.TXT'"
