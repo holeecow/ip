@@ -84,4 +84,15 @@ public class TextUI {
                 + " tasks in the list \n"
                 + DIVIDER);
     }
+
+    public void showToDoMessage(Task todo) {
+        taskList.add(todo);
+        System.out.println(DIVIDER
+                + "Got it. I've added this task: \n    "
+                + todo.toString()
+                + "\nNow you have "
+                + taskList.size()
+                + " tasks in the list \n"
+                + DIVIDER);
+    }
 }

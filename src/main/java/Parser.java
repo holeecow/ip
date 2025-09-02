@@ -33,6 +33,9 @@ public class Parser {
             case "deadline":
                 handleDeadlineCommand(description);
                 break;
+            case "todo":
+                handleToDoCommand(description);
+                break;
             case "bye":
                 handleByeCommand();
                 break;
@@ -113,6 +116,14 @@ public class Parser {
 
         Task task = new Deadline(deadlineDescription, deadline, false);
         textUI.showDeadlineMessage(task);
+    }
+
+    private void handleToDoCommand(String description) {
+        if (description.isEmpty()) {
+            throw new NoDescriptionException();
+        }
+        Task task = new ToDo(description, false);
+        textUI.showToDoMessage(task);
     }
 
     public boolean isExit() {
