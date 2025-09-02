@@ -73,4 +73,15 @@ public class TextUI {
                 + taskList.get(listIndex).toString()
                 + "\n" + DIVIDER);
     }
+
+    public void showDeadlineMessage(Task deadline) {
+        taskList.add(deadline);
+        System.out.println(DIVIDER
+                + "Got it. I've added this task: \n    "
+                + deadline.toString()
+                + "\nNow you have "
+                + taskList.size()
+                + " tasks in the list \n"
+                + DIVIDER);
+    }
 }

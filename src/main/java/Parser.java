@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Parser {
@@ -26,6 +29,9 @@ public class Parser {
                 break;
             case "mark":
                 handleMarkCommand(description);
+                break;
+            case "deadline":
+                handleDeadlineCommand(description);
                 break;
             case "bye":
                 handleByeCommand();
@@ -69,6 +75,44 @@ public class Parser {
     private void handleByeCommand() {
         this.textUI.showByeMessage();
         isExit = true;
+    }
+
+    private void handleDeadlineCommand(String description) {
+        String[] descriptionParts = description.split("/by", 2);
+        if (descriptionParts.length < 2) {
+            throw new NoDeadlineException();
+        }
+
+        if (descriptionParts[0].isEmpty()) {
+            throw new NoDescriptionException();
+        }
+
+        String deadlineDescription = descriptionParts[0].trim();
+        String deadline = descriptionParts[1].trim();
+
+        // check if the first character of deadline is a digit (i.e. if the deadline is in the format "2/12/2019 1800")
+        if (Character.isDigit(deadline.charAt(0))) {
+            String[] deadlineParts = deadline.split(" "); // split up the deadline by space
+
+            String dateStr = deadlineParts[0]; // "2/12/2019"
+            String timeStr = deadlineParts[1]; // "1800"
+
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+            LocalDate date = LocalDate.parse(dateStr, dateFormatter);
+
+            int hour = Integer.parseInt(timeStr.substring(0, 2)); // "18"
+            int minute = Integer.parseInt(timeStr.substring(2, 4)); // "00"
+
+            // convert the time e.g. 1800 to a LocalTime object
+            LocalTime time = LocalTime.of(hour, minute);
+
+            Task task = new Deadline(deadlineDescription, time, date, false);
+
+            textUI.showDeadlineMessage(task);
+        }
+
+        Task task = new Deadline(deadlineDescription, deadline, false);
+        textUI.showDeadlineMessage(task);
     }
 
     public boolean isExit() {
