@@ -2,6 +2,10 @@ package sumtingwong.ui;
 
 import java.util.Scanner;
 
+/**
+ * Console-based user interface for displaying messages and interacting
+ * with the {@link TaskList} during the application's lifecycle.
+ */
 public class TextUI {
     private final Scanner scanner;
 
@@ -11,15 +15,28 @@ public class TextUI {
 
     private static final String BOT_NAME = "SumTingWong";
 
+    /**
+     * Creates a UI bound to the provided task list.
+     *
+     * @param taskList the task list to display and mutate
+     */
     public TextUI(TaskList taskList) {
         this.scanner = new Scanner(System.in);
         TextUI.taskList = taskList;
     }
 
+    /**
+     * Returns the divider string used in console output.
+     *
+     * @return divider string
+     */
     public static String getDIVIDER() {
         return DIVIDER;
     }
 
+    /**
+     * Prints the full list of tasks to the console.
+     */
     public void showListMessage() {
         System.out.println(DIVIDER
                 + "Here are the tasks in your list: \n"
@@ -27,23 +44,44 @@ public class TextUI {
                 + DIVIDER);
     }
 
+    /**
+     * Prints the welcome banner.
+     */
     public void showWelcomeMessage() {
         System.out.println(DIVIDER + "Hello! I'm " + BOT_NAME + "\n"
                 + "What can I do for you? -.-\n" + DIVIDER);
     }
 
+    /**
+     * Prints the goodbye message.
+     */
     public void showByeMessage() {
         System.out.println(DIVIDER + "Bye. Hope you never come back >: \n" + DIVIDER);
     }
 
+    /**
+     * Reads a trimmed line of input from the console.
+     *
+     * @return user input without leading/trailing spaces
+     */
     public String getUserInput() {
         return scanner.nextLine().trim();
     }
 
+    /**
+     * Prints an error message.
+     *
+     * @param message the error to display
+     */
     public void showError(String message) {
         System.out.println("Error: " + message);
     }
 
+    /**
+     * Marks a task as not done and prints feedback.
+     *
+     * @param listIndex zero-based index of the task
+     */
     public void showUnMarkMessage(int listIndex) {
         taskList.get(listIndex).markAsNotDone();
         System.out.println(DIVIDER
@@ -52,6 +90,11 @@ public class TextUI {
                 + "\n" + DIVIDER);
     }
 
+    /**
+     * Marks a task as done and prints feedback.
+     *
+     * @param listIndex zero-based index of the task
+     */
     public void showMarkMessage(int listIndex) {
         taskList.get(listIndex).markAsDone();
         System.out.println(DIVIDER
@@ -60,6 +103,11 @@ public class TextUI {
                 + "\n" + DIVIDER);
     }
 
+    /**
+     * Adds a deadline task to the list and prints feedback.
+     *
+     * @param deadline the task to add
+     */
     public void showDeadlineMessage(Task deadline) {
         taskList.add(deadline);
         System.out.println(DIVIDER
@@ -71,6 +119,11 @@ public class TextUI {
                 + DIVIDER);
     }
 
+    /**
+     * Adds a todo task to the list and prints feedback.
+     *
+     * @param todo the task to add
+     */
     public void showToDoMessage(Task todo) {
         taskList.add(todo);
         System.out.println(DIVIDER
@@ -82,6 +135,11 @@ public class TextUI {
                 + DIVIDER);
     }
 
+    /**
+     * Adds an event task to the list and prints feedback.
+     *
+     * @param event the task to add
+     */
     public void showEventMessage(Task event) {
         taskList.add(event);
         System.out.println(DIVIDER
@@ -93,6 +151,11 @@ public class TextUI {
                 + DIVIDER);
     }
 
+    /**
+     * Deletes the task at the given index and prints feedback.
+     *
+     * @param listIndex zero-based index of the task to delete
+     */
     public void showDeleteMessage(int listIndex) {
         Task deletedTask = taskList.get(listIndex);
         taskList.remove(listIndex);

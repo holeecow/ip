@@ -13,7 +13,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Tests for {@link Storage} save behavior and file creation.
+ */
 public class StorageTest {
+    /**
+     * Verifies that {@link Storage#saveTasks(ArrayList)} writes the expected
+     * serialized lines for ToDo, Deadline, and Event tasks.
+     */
     @Test
     public void saveTasks_writesExpectedContent(@TempDir Path tempDir) throws IOException {
         //create temporary directory for testing
@@ -35,6 +42,10 @@ public class StorageTest {
         assertEquals("E | false | team meeting | 2025-01-01 10:00 | 2025-01-01 11:00", lines.get(2));
     }
 
+    /**
+     * Ensures that {@link Storage#saveTasks(ArrayList)} creates the data file
+     * if it does not already exist.
+     */
     @Test
     //Test if the file is created if it doesn't exist
     public void saveTasks_createsFileIfMissing(@TempDir Path tempDir) {

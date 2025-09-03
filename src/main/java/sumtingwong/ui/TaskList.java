@@ -2,37 +2,79 @@ package sumtingwong.ui;
 
 import java.util.ArrayList;
 
+/**
+ * In-memory collection of tasks with simple list-like operations.
+ */
 public class TaskList {
     private static ArrayList<Task> tasks;
 
+    /**
+     * Creates a task list seeded with the provided tasks.
+     *
+     * @param tasks initial tasks to populate
+     */
     public TaskList(ArrayList<Task> tasks) {
         TaskList.tasks = new ArrayList<>(tasks);
     }
 
+    /**
+     * Creates an empty task list.
+     */
     public TaskList() {
         tasks = new ArrayList<>();
     }
 
+    /**
+     * Adds a task to the end of the list.
+     *
+     * @param task the task to add
+     */
     public void add(Task task) {
        tasks.add(task);
     }
 
+    /**
+     * Returns the task at the given index.
+     *
+     * @param index zero-based index
+     * @return the task at the index
+     */
     public Task get(int index) {
         return tasks.get(index);
     }
 
+    /**
+     * Removes the task at the given index.
+     *
+     * @param index zero-based index
+     */
     public void remove(int index) {
         tasks.remove(index);
     }
 
+    /**
+     * Returns whether the list contains no tasks.
+     *
+     * @return true if empty; false otherwise
+     */
     public boolean isEmpty() {
         return tasks.isEmpty();
     }
 
+    /**
+     * Returns the number of tasks in the list.
+     *
+     * @return task count
+     */
     public int size() {
         return tasks.size();
     }
 
+    /**
+     * Returns a copy of the underlying task list for persistence.
+     *
+     * @return tasks copy
+     */
     public ArrayList<Task> getTasks() {
         return tasks;
     }

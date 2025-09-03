@@ -5,7 +5,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * Tests for {@link Parser} deadline command handling.
+ */
 public class ParserTest {
+    /**
+     * Adds a deadline when /by is followed by a free-form string, and ensures
+     * the task is appended with the expected rendering.
+     */
     @Test
     public void handleDeadline_addsDeadlineWithByString() {
         TaskList taskList = new TaskList();
@@ -18,6 +25,9 @@ public class ParserTest {
         assertEquals("[D][ ] submit report (by: tomorrow 6pm)", taskList.get(0).toString());
     }
 
+    /**
+     * Missing /by and value should trigger {@link NoDeadlineException}.
+     */
     @Test
     public void handleDeadline_missingBy_throwsNoDeadlineException() {
         TaskList taskList = new TaskList();
@@ -27,6 +37,9 @@ public class ParserTest {
         assertThrows(NoDeadlineException.class, () -> parser.parseCommand("deadline submit report"));
     }
 
+    /**
+     * Missing description before /by should trigger {@link NoDescriptionException}.
+     */
     @Test
     public void handleDeadline_missingDescription_throwsNoDescriptionException() {
         TaskList taskList = new TaskList();
@@ -36,6 +49,10 @@ public class ParserTest {
         assertThrows(NoDescriptionException.class, () -> parser.parseCommand("deadline /by tomorrow"));
     }
 
+    /**
+     * Digit-starting date-time in d/M/yyyy HHmm should be parsed and rendered
+     * in pretty form, resulting in a single appended task.
+     */
     @Test
     public void handleDeadline_dateTimePattern_addsSinglePrettyFormattedTask() {
         TaskList taskList = new TaskList();
