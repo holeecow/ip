@@ -133,10 +133,13 @@ public class Parser {
      * @param keyword user-provided keyword
      */
     private void handleFindCommand(String keyword) {
+        if (keyword.isEmpty()) {
+            throw new NoKeywordException();
+        }
         StringBuilder sb = new StringBuilder();
         int displayIndex = 1;
         for (Task task : taskList.findByKeyword(keyword)) {
-            sb.append(displayIndex++).append(".").append(task.toString()).append("\n");
+            sb.append(displayIndex++).append(". ").append(task.toString()).append("\n");
         }
         textUI.showFindMessage(sb.toString());
     }
