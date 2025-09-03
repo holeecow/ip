@@ -40,6 +40,6 @@ public class SumTingWong {
     }
 
     public static void main(String[] args) {
-        new SumTingWong("data/TaskList.txt").run();
+        new SumTingWong("../data/TaskList.txt").run();
     }
 }
