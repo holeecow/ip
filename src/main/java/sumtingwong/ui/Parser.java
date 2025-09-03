@@ -83,7 +83,7 @@ public class Parser {
      */
     private void handleUnMarkCommand(String description) {
         int listIndex = Integer.parseInt(description) - 1;  // "2"
-
+        taskList.get(listIndex).markAsNotDone();
         textUI.showUnMarkMessage(listIndex);
     }
 
@@ -95,7 +95,7 @@ public class Parser {
      */
     private void handleMarkCommand(String description) {
         int listIndex = Integer.parseInt(description) - 1;  // "2"
-
+        taskList.get(listIndex).markAsDone();
         textUI.showMarkMessage(listIndex);
     }
 
@@ -113,9 +113,12 @@ public class Parser {
      * @throws NumberFormatException if the index is not a number
      */
     private void handleDeleteCommand(String description) {
-        int listIndex = Integer.parseInt(description) - 1;  // "2"
+        int listIndex = Integer.parseInt(description) - 1;
 
-        textUI.showDeleteMessage(listIndex);
+        Task deletedTask = taskList.get(listIndex);
+        taskList.remove(listIndex);
+
+        textUI.showDeleteMessage(deletedTask);
     }
 
     /**
@@ -188,9 +191,14 @@ public class Parser {
 
             Task task = new Deadline(deadlineDescription, time, date, false);
 
+            taskList.add(task);
+
             textUI.showDeadlineMessage(task);
         } else {
             Task task = new Deadline(deadlineDescription, deadline, false);
+
+            taskList.add(task);
+
             textUI.showDeadlineMessage(task);
         }
     }
@@ -235,6 +243,8 @@ public class Parser {
         String endTime = times[1].trim();     // "4pm"
 
         Task task = new Event(eventDescription, startTime, endTime, false);
+        taskList.add(task);
+
         textUI.showEventMessage(task);
     }
 
