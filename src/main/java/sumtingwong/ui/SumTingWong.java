@@ -23,13 +23,13 @@ public class SumTingWong {
             this.taskList = new TaskList(storage.loadTasks());
 
             textUI = new TextUI(this.taskList);
-            parser = new Parser(textUI);
+            parser = new Parser(textUI, this.taskList);
         } catch (SumTingWongException e) {
             textUI.showError(e.getMessage());
             taskList = new TaskList();
 
             textUI = new TextUI(taskList);
-            parser = new Parser(textUI);
+            parser = new Parser(this.textUI, this.taskList);
         }
     }
 

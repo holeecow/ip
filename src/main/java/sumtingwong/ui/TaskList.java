@@ -79,6 +79,23 @@ public class TaskList {
         return tasks;
     }
 
+    /**
+     * Finds tasks whose descriptions contain the provided keyword (case-insensitive).
+     *
+     * @param keyword search term to match within task descriptions
+     * @return list of matching tasks, in their original order
+     */
+    public ArrayList<Task> findByKeyword(String keyword) {
+        ArrayList<Task> result = new ArrayList<>();
+        String needle = keyword.toLowerCase();
+        for (Task task : tasks) {
+            if (task.description != null && task.description.toLowerCase().contains(needle)) {
+                result.add(task);
+            }
+        }
+        return result;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

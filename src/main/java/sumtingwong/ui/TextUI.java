@@ -168,4 +168,18 @@ public class TextUI {
                 + " tasks in the list \n"
                 + DIVIDER);
     }
+
+    /**
+     * Displays tasks that match a keyword search.
+     *
+     * @param tasks string representation of the tasks that match the keyword
+     */
+    public void showFindMessage(String tasks) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(DIVIDER)
+          .append("Here are the matching tasks in your list: \n");
+        sb.append(tasks);
+        sb.append(DIVIDER);
+        System.out.print(sb.toString());
+    }
 }

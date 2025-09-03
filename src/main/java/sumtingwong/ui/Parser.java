@@ -14,6 +14,8 @@ public class Parser {
 
     private TextUI textUI;
 
+    private TaskList taskList;
+
     private static boolean isExit = false;
 
     /**
@@ -22,8 +24,9 @@ public class Parser {
      *
      * @param ui the UI instance to delegate actions to
      */
-    public Parser(TextUI ui) {
+    public Parser(TextUI ui, TaskList taskList) {
         this.textUI = ui;
+        this.taskList = taskList;
     }
 
     /**
@@ -40,32 +43,35 @@ public class Parser {
 
         // Switch case for handling different commands
         switch (command) {
-        case "list":
-            handleListCommand();
-            break;
-        case "unmark":
-            handleUnMarkCommand(description);
-            break;
-        case "mark":
-            handleMarkCommand(description);
-            break;
-        case "deadline":
-            handleDeadlineCommand(description);
-            break;
-        case "todo":
-            handleToDoCommand(description);
-            break;
-        case "event":
-            handleEventCommand(description);
-            break;
-        case "delete":
-            handleDeleteCommand(description);
-            break;
-        case "bye":
-            handleByeCommand();
-            break;
-        default:
-            throw new UnknownEventException(command);
+            case "list":
+                handleListCommand();
+                break;
+            case "unmark":
+                handleUnMarkCommand(description);
+                break;
+            case "mark":
+                handleMarkCommand(description);
+                break;
+            case "deadline":
+                handleDeadlineCommand(description);
+                break;
+            case "todo":
+                handleToDoCommand(description);
+                break;
+            case "event":
+                handleEventCommand(description);
+                break;
+            case "delete":
+                handleDeleteCommand(description);
+                break;
+            case "find":
+                handleFindCommand(description);
+                break;
+            case "bye":
+                handleByeCommand();
+                break;
+            default:
+                throw new UnknownEventException(command);
         }
     }
 
@@ -93,14 +99,6 @@ public class Parser {
         textUI.showMarkMessage(listIndex);
     }
 
-    // Handle the "add" command
-    private String handleAddCommand(String argument) {
-        if (argument.isEmpty()) {
-            return "The task description cannot be empty!";
-        }
-        return "Adding task: " + argument;  // You could integrate this with the TaskManager class
-    }
-
     /**
      * Displays all tasks.
      */
@@ -126,6 +124,21 @@ public class Parser {
     private void handleByeCommand() {
         this.textUI.showByeMessage();
         isExit = true;
+    }
+
+    /**
+     * Finds tasks whose description contains the provided keyword.
+     * Empty keywords are treated as no-op.
+     *
+     * @param keyword user-provided keyword
+     */
+    private void handleFindCommand(String keyword) {
+        StringBuilder sb = new StringBuilder();
+        int displayIndex = 1;
+        for (Task task : taskList.findByKeyword(keyword)) {
+            sb.append(displayIndex++).append(".").append(task.toString()).append("\n");
+        }
+        textUI.showFindMessage(sb.toString());
     }
 
     /**
