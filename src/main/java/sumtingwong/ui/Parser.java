@@ -120,10 +120,10 @@ public class Parser {
             Task task = new Deadline(deadlineDescription, time, date, false);
 
             textUI.showDeadlineMessage(task);
+        } else {
+            Task task = new Deadline(deadlineDescription, deadline, false);
+            textUI.showDeadlineMessage(task);
         }
-
-        Task task = new Deadline(deadlineDescription, deadline, false);
-        textUI.showDeadlineMessage(task);
     }
 
     private void handleToDoCommand(String description) {
