@@ -40,32 +40,32 @@ public class Parser {
 
         // Switch case for handling different commands
         switch (command) {
-            case "list":
-                handleListCommand();
-                break;
-            case "unmark":
-                handleUnMarkCommand(description);
-                break;
-            case "mark":
-                handleMarkCommand(description);
-                break;
-            case "deadline":
-                handleDeadlineCommand(description);
-                break;
-            case "todo":
-                handleToDoCommand(description);
-                break;
-            case "event":
-                handleEventCommand(description);
-                break;
-            case "delete":
-                handleDeleteCommand(description);
-                break;
-            case "bye":
-                handleByeCommand();
-                break;
-            default:
-                throw new UnknownEventException(command);
+        case "list":
+            handleListCommand();
+            break;
+        case "unmark":
+            handleUnMarkCommand(description);
+            break;
+        case "mark":
+            handleMarkCommand(description);
+            break;
+        case "deadline":
+            handleDeadlineCommand(description);
+            break;
+        case "todo":
+            handleToDoCommand(description);
+            break;
+        case "event":
+            handleEventCommand(description);
+            break;
+        case "delete":
+            handleDeleteCommand(description);
+            break;
+        case "bye":
+            handleByeCommand();
+            break;
+        default:
+            throw new UnknownEventException(command);
         }
     }
 
