@@ -83,7 +83,6 @@ public class TextUI {
      * @param listIndex zero-based index of the task
      */
     public void showUnMarkMessage(int listIndex) {
-        taskList.get(listIndex).markAsNotDone();
         System.out.println(DIVIDER
                 + "OK, I've marked this task as not done yet: \n"
                 + taskList.get(listIndex).toString()
@@ -96,7 +95,6 @@ public class TextUI {
      * @param listIndex zero-based index of the task
      */
     public void showMarkMessage(int listIndex) {
-        taskList.get(listIndex).markAsDone();
         System.out.println(DIVIDER
                 + "Nice! I've marked this task as done: \n"
                 + taskList.get(listIndex).toString()
@@ -109,7 +107,6 @@ public class TextUI {
      * @param deadline the task to add
      */
     public void showDeadlineMessage(Task deadline) {
-        taskList.add(deadline);
         System.out.println(DIVIDER
                 + "Got it. I've added this task: \n    "
                 + deadline.toString()
@@ -125,7 +122,6 @@ public class TextUI {
      * @param todo the task to add
      */
     public void showToDoMessage(Task todo) {
-        taskList.add(todo);
         System.out.println(DIVIDER
                 + "Got it. I've added this task: \n    "
                 + todo.toString()
@@ -141,7 +137,6 @@ public class TextUI {
      * @param event the task to add
      */
     public void showEventMessage(Task event) {
-        taskList.add(event);
         System.out.println(DIVIDER
                 + "Got it. I've added this task: \n    "
                 + event.toString()
@@ -154,18 +149,27 @@ public class TextUI {
     /**
      * Deletes the task at the given index and prints feedback.
      *
-     * @param listIndex zero-based index of the task to delete
+     * @param deletedTask the Task object that has been deleted
      */
-    public void showDeleteMessage(int listIndex) {
-        Task deletedTask = taskList.get(listIndex);
-        taskList.remove(listIndex);
-
+    public void showDeleteMessage(Task deletedTask) {
         System.out.println(DIVIDER
                 + " Noted. I've removed this task: \n    "
                 + deletedTask.toString()
                 + "\n Now you have "
                 + taskList.size()
                 + " tasks in the list \n"
+                + DIVIDER);
+    }
+
+    /**
+     * Displays tasks that match a keyword search.
+     *
+     * @param tasks string representation of the tasks that match the keyword
+     */
+    public void showFindMessage(String tasks) {
+        System.out.println(DIVIDER
+                + "Here are the matching tasks in your list: \n"
+                + tasks
                 + DIVIDER);
     }
 }

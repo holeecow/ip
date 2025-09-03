@@ -17,7 +17,7 @@ public class ParserTest {
     public void handleDeadline_addsDeadlineWithByString() {
         TaskList taskList = new TaskList();
         TextUI ui = new TextUI(taskList);
-        Parser parser = new Parser(ui);
+        Parser parser = new Parser(ui, taskList);
 
         parser.parseCommand("deadline submit report /by tomorrow 6pm");
 
@@ -32,7 +32,7 @@ public class ParserTest {
     public void handleDeadline_missingBy_throwsNoDeadlineException() {
         TaskList taskList = new TaskList();
         TextUI ui = new TextUI(taskList);
-        Parser parser = new Parser(ui);
+        Parser parser = new Parser(ui, taskList);
 
         assertThrows(NoDeadlineException.class, () -> parser.parseCommand("deadline submit report"));
     }
@@ -44,7 +44,7 @@ public class ParserTest {
     public void handleDeadline_missingDescription_throwsNoDescriptionException() {
         TaskList taskList = new TaskList();
         TextUI ui = new TextUI(taskList);
-        Parser parser = new Parser(ui);
+        Parser parser = new Parser(ui, taskList);
 
         assertThrows(NoDescriptionException.class, () -> parser.parseCommand("deadline /by tomorrow"));
     }
@@ -57,7 +57,7 @@ public class ParserTest {
     public void handleDeadline_dateTimePattern_addsSinglePrettyFormattedTask() {
         TaskList taskList = new TaskList();
         TextUI ui = new TextUI(taskList);
-        Parser parser = new Parser(ui);
+        Parser parser = new Parser(ui, taskList);
 
         parser.parseCommand("deadline finish project /by 2/12/2019 1800");
 
