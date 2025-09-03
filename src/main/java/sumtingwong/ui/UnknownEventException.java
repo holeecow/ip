@@ -1,5 +1,8 @@
 package sumtingwong.ui;
 
+/**
+ * Thrown when an unrecognized command keyword is encountered.
+ */
 public class UnknownEventException extends SumTingWongException {
 
     public UnknownEventException(String userInput) {
