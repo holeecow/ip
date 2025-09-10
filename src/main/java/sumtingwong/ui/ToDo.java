@@ -3,7 +3,7 @@ package sumtingwong.ui;
 /**
  * A simple task without any date/time component.
  */
-public class ToDo extends Task{
+public class ToDo extends Task {
 
     /**
      * Creates a todo task.
@@ -15,11 +15,10 @@ public class ToDo extends Task{
         super(description, isDone);
     }
 
-
     /**
      * Serializes this todo into the storage line format.
      *
-     * @return line in the form: T | <isDone> | <description>
+     * @return line in the form: T | `isDone` | `description`
      */
     public String toFileFormat() {
         return "T" + " | " + super.isDone + " | " + description;

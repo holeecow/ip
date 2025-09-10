@@ -30,7 +30,7 @@ public class TaskList {
      * @param task the task to add
      */
     public void add(Task task) {
-       tasks.add(task);
+        tasks.add(task);
     }
 
     /**

@@ -46,7 +46,7 @@ public class Deadline extends Task {
     /**
      * Serializes this deadline into the storage line format.
      *
-     * @return line in the form: D | <isDone> | <description> | <by>
+     * @return line in the form: D | `isDone` | `description` | `by`
      */
     public String toFileFormat() {
         return "D" + " | " + super.isDone + " | " + description + " | " + this.by;

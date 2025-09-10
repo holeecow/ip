@@ -1,9 +1,9 @@
 package sumtingwong.ui;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Parser} deadline command handling.
@@ -64,4 +64,4 @@ public class ParserTest {
         assertEquals(1, taskList.size());
         assertEquals("[D][ ] finish project (by: Dec 02 2019 6:00 PM)", taskList.get(0).toString());
     }
-} 
+}

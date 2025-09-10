@@ -1,10 +1,10 @@
 package sumtingwong.ui;
 
-import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.BufferedReader;
-import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -53,10 +53,10 @@ public class Storage {
             // write tasks to the file
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
                 for (Task task : tasks) {
-                    if (task.getClass() == ToDo.class){
+                    if (task.getClass() == ToDo.class) {
                         ToDo todo = (ToDo) task;
                         writer.write(todo.toFileFormat());
-                    } else if(task.getClass() == Deadline.class){
+                    } else if (task.getClass() == Deadline.class) {
                         Deadline deadline = (Deadline) task;
                         writer.write(deadline.toFileFormat());
                     } else {
