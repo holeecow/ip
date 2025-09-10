@@ -1,6 +1,7 @@
 package sumtingwong.ui;
 
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 /**
  * Console-based user interface for displaying messages and interacting
@@ -9,9 +10,10 @@ import java.util.Scanner;
 public class TextUI {
     private static final String DIVIDER = "------------------------------- \n";
     private static final String BOT_NAME = "SumTingWong";
-    private static TaskList taskList;
+    protected static TaskList taskList;
 
     private final Scanner scanner;
+    private final Consumer<String> printer;
 
     /**
      * Creates a UI bound to the provided task list.
@@ -19,8 +21,19 @@ public class TextUI {
      * @param taskList the task list to display and mutate
      */
     public TextUI(TaskList taskList) {
+        this(taskList, System.out::println);
+    }
+
+    /**
+     * Creates a UI with a custom printer. For GUI, supply a printer that buffers output.
+     *
+     * @param taskList the task list to display and mutate
+     * @param printer function to handle output (e.g., System.out::println for console, StringBuilder::append for GUI)
+     */
+    public TextUI(TaskList taskList, Consumer<String> printer) {
         this.scanner = new Scanner(System.in);
         TextUI.taskList = taskList;
+        this.printer = printer;
     }
 
     /**
@@ -36,25 +49,17 @@ public class TextUI {
      * Prints the full list of tasks to the console.
      */
     public void showListMessage() {
-        System.out.println(DIVIDER
+        printer.accept(DIVIDER
                 + "Here are the tasks in your list: \n"
                 + taskList.toString()
                 + DIVIDER);
     }
 
     /**
-     * Prints the welcome banner.
-     */
-    public void showWelcomeMessage() {
-        System.out.println(DIVIDER + "Hello! I'm " + BOT_NAME + "\n"
-                + "What can I do for you? -.-\n" + DIVIDER);
-    }
-
-    /**
      * Prints the goodbye message.
      */
     public void showByeMessage() {
-        System.out.println(DIVIDER + "Bye. Hope you never come back >: \n" + DIVIDER);
+        printer.accept(DIVIDER + "Bye. Hope you never come back >: \n" + DIVIDER);
     }
 
     /**
@@ -72,7 +77,7 @@ public class TextUI {
      * @param message the error to display
      */
     public void showError(String message) {
-        System.out.println("Error: " + message);
+        printer.accept("Error: " + message);
     }
 
     /**
@@ -81,7 +86,7 @@ public class TextUI {
      * @param listIndex zero-based index of the task
      */
     public void showUnMarkMessage(int listIndex) {
-        System.out.println(DIVIDER
+        printer.accept(DIVIDER
                 + "OK, I've marked this task as not done yet: \n"
                 + taskList.get(listIndex).toString()
                 + "\n" + DIVIDER);
@@ -93,7 +98,7 @@ public class TextUI {
      * @param listIndex zero-based index of the task
      */
     public void showMarkMessage(int listIndex) {
-        System.out.println(DIVIDER
+        printer.accept(DIVIDER
                 + "Nice! I've marked this task as done: \n"
                 + taskList.get(listIndex).toString()
                 + "\n" + DIVIDER);
@@ -105,7 +110,7 @@ public class TextUI {
      * @param deadline the task to add
      */
     public void showDeadlineMessage(Task deadline) {
-        System.out.println(DIVIDER
+        printer.accept(DIVIDER
                 + "Got it. I've added this task: \n    "
                 + deadline.toString()
                 + "\nNow you have "
@@ -120,7 +125,7 @@ public class TextUI {
      * @param todo the task to add
      */
     public void showToDoMessage(Task todo) {
-        System.out.println(DIVIDER
+        printer.accept(DIVIDER
                 + "Got it. I've added this task: \n    "
                 + todo.toString()
                 + "\nNow you have "
@@ -135,7 +140,7 @@ public class TextUI {
      * @param event the task to add
      */
     public void showEventMessage(Task event) {
-        System.out.println(DIVIDER
+        printer.accept(DIVIDER
                 + "Got it. I've added this task: \n    "
                 + event.toString()
                 + "\nNow you have "
@@ -150,7 +155,7 @@ public class TextUI {
      * @param deletedTask the Task object that has been deleted
      */
     public void showDeleteMessage(Task deletedTask) {
-        System.out.println(DIVIDER
+        printer.accept(DIVIDER
                 + " Noted. I've removed this task: \n    "
                 + deletedTask.toString()
                 + "\n Now you have "
@@ -165,7 +170,7 @@ public class TextUI {
      * @param tasks string representation of the tasks that match the keyword
      */
     public void showFindMessage(String tasks) {
-        System.out.println(DIVIDER
+        printer.accept(DIVIDER
                 + "Here are the matching tasks in your list: \n"
                 + tasks
                 + DIVIDER);

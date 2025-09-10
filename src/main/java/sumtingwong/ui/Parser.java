@@ -213,6 +213,7 @@ public class Parser {
             throw new NoDescriptionException();
         }
         Task task = new ToDo(description, false);
+        taskList.add(task);
         textUI.showToDoMessage(task);
     }
 
