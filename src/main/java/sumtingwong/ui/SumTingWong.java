@@ -11,6 +11,13 @@ public class SumTingWong {
     private Parser parser;
 
     /**
+     * Default constructor used by GUI.
+     */
+    public SumTingWong() {
+        this("data/TaskList.txt");
+    }
+
+    /**
      * Constructs the application, initializing storage, loading tasks,
      * and wiring the UI and parser.
      *
@@ -25,40 +32,31 @@ public class SumTingWong {
             textUI = new TextUI(this.taskList);
             parser = new Parser(textUI, this.taskList);
         } catch (SumTingWongException e) {
-            textUI.showError(e.getMessage());
+            textUI = new TextUI(new TaskList());
             taskList = new TaskList();
-
-            textUI = new TextUI(taskList);
             parser = new Parser(this.textUI, this.taskList);
         }
     }
 
     /**
-     * Starts the main input loop until the user issues the exit command.
-     * Saves tasks after each command.
+     * Processes a single user input and returns the bot's reply for GUI.
+     * The method does not block or print to System.out.
+     *
+     * @param input user input line
+     * @return reply text to display in GUI
      */
-    public void run() {
-        textUI.showWelcomeMessage();
-        boolean isExit = false;
-        while (!isExit) {
-            try {
-                String fullCommand = textUI.getUserInput();
-                parser.parseCommand(fullCommand);
-                isExit = parser.isExit();
-            } catch (SumTingWongException e) {
-                textUI.showError(e.getMessage());
-            } finally {
-                Storage.saveTasks(taskList.getTasks());
-            }
+    public String getResponse(String input) {
+        StringBuilder sb = new StringBuilder();
+        TextUI guiUi = new TextUI(taskList, sb::append);
+        Parser guiParser = new Parser(guiUi, taskList);
+        try {
+            guiParser.parseCommand(input);
+        } catch (SumTingWongException e) {
+            guiUi.showError(e.getMessage());
+        } finally {
+            Storage.saveTasks(taskList.getTasks());
         }
+        return sb.toString();
     }
 
-    /**
-     * Program entry point. Configures the storage path and launches the app.
-     *
-     * @param args CLI arguments (unused)
-     */
-    public static void main(String[] args) {
-        new SumTingWong("../data/TaskList.txt").run();
-    }
 }
