@@ -12,11 +12,11 @@ import java.time.format.DateTimeFormatter;
  */
 public class Parser {
 
+    private static boolean isExit = false;
+
     private TextUI textUI;
 
     private TaskList taskList;
-
-    private static boolean isExit = false;
 
     /**
      * Constructs a parser that will use the provided {@link TextUI} for output
@@ -38,40 +38,39 @@ public class Parser {
     public void parseCommand(String userInput) {
         // Split the input based on spaces to get the command and arguments
         String[] parts = userInput.split(" ", 2);
-        String command = parts[0].toLowerCase();  // Command e.g. "add", "list"
-        String description = parts.length > 1 ? parts[1] : "";  // Remaining task description
+        String command = parts[0].toLowerCase();
+        String description = parts.length > 1 ? parts[1] : "";
 
-        // Switch case for handling different commands
         switch (command) {
-            case "list":
-                handleListCommand();
-                break;
-            case "unmark":
-                handleUnMarkCommand(description);
-                break;
-            case "mark":
-                handleMarkCommand(description);
-                break;
-            case "deadline":
-                handleDeadlineCommand(description);
-                break;
-            case "todo":
-                handleToDoCommand(description);
-                break;
-            case "event":
-                handleEventCommand(description);
-                break;
-            case "delete":
-                handleDeleteCommand(description);
-                break;
-            case "find":
-                handleFindCommand(description);
-                break;
-            case "bye":
-                handleByeCommand();
-                break;
-            default:
-                throw new UnknownEventException(command);
+        case "list":
+            handleListCommand();
+            break;
+        case "unmark":
+            handleUnMarkCommand(description);
+            break;
+        case "mark":
+            handleMarkCommand(description);
+            break;
+        case "deadline":
+            handleDeadlineCommand(description);
+            break;
+        case "todo":
+            handleToDoCommand(description);
+            break;
+        case "event":
+            handleEventCommand(description);
+            break;
+        case "delete":
+            handleDeleteCommand(description);
+            break;
+        case "find":
+            handleFindCommand(description);
+            break;
+        case "bye":
+            handleByeCommand();
+            break;
+        default:
+            throw new UnknownEventException(command);
         }
     }
 
@@ -82,7 +81,7 @@ public class Parser {
      * @throws NumberFormatException if the index is not a number
      */
     private void handleUnMarkCommand(String description) {
-        int listIndex = Integer.parseInt(description) - 1;  // "2"
+        int listIndex = Integer.parseInt(description) - 1;
         taskList.get(listIndex).markAsNotDone();
         textUI.showUnMarkMessage(listIndex);
     }
@@ -94,7 +93,7 @@ public class Parser {
      * @throws NumberFormatException if the index is not a number
      */
     private void handleMarkCommand(String description) {
-        int listIndex = Integer.parseInt(description) - 1;  // "2"
+        int listIndex = Integer.parseInt(description) - 1;
         taskList.get(listIndex).markAsDone();
         textUI.showMarkMessage(listIndex);
     }
@@ -175,16 +174,16 @@ public class Parser {
 
         // check if the first character of deadline is a digit (i.e. if the deadline is in the format "2/12/2019 1800")
         if (Character.isDigit(deadline.charAt(0))) {
-            String[] deadlineParts = deadline.split(" "); // split up the deadline by space
+            String[] deadlineParts = deadline.split(" ");
 
-            String dateStr = deadlineParts[0]; // "2/12/2019"
-            String timeStr = deadlineParts[1]; // "1800"
+            String dateStr = deadlineParts[0];
+            String timeStr = deadlineParts[1];
 
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d/M/yyyy");
             LocalDate date = LocalDate.parse(dateStr, dateFormatter);
 
-            int hour = Integer.parseInt(timeStr.substring(0, 2)); // "18"
-            int minute = Integer.parseInt(timeStr.substring(2, 4)); // "00"
+            int hour = Integer.parseInt(timeStr.substring(0, 2));
+            int minute = Integer.parseInt(timeStr.substring(2, 4));
 
             // convert the time e.g. 1800 to a LocalTime object
             LocalTime time = LocalTime.of(hour, minute);
@@ -219,7 +218,7 @@ public class Parser {
 
     /**
      * Parses and adds an event task in the format
-     * "<desc> /from <start> /to <end>".
+     * "desc /from start /to end".
      *
      * @param description the raw argument after the command keyword
      * @throws NoDescriptionException if the description is empty
@@ -235,12 +234,12 @@ public class Parser {
         if (parts.length < 2) {
             throw new NoDateException();
         }
-        String eventDescription = parts[0].trim(); // "project meeting"
+        String eventDescription = parts[0].trim();
 
         // Split the time part into [start, end]
         String[] times = parts[1].split("/to", 2);
-        String startTime = times[0].trim();   // "Mon 2pm"
-        String endTime = times[1].trim();     // "4pm"
+        String startTime = times[0].trim();
+        String endTime = times[1].trim();
 
         Task task = new Event(eventDescription, startTime, endTime, false);
         taskList.add(task);

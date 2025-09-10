@@ -1,14 +1,14 @@
 package sumtingwong.ui;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -34,7 +34,7 @@ public class StorageTest {
 
         Storage.saveTasks(tasks);
 
-        // read the contents of the tasks.txt file 
+        // read the contents of the tasks.txt file
         List<String> lines = Files.readAllLines(tempFile, StandardCharsets.UTF_8);
         assertEquals(3, lines.size());
         assertEquals("T | false | read book", lines.get(0));

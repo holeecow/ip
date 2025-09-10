@@ -7,13 +7,11 @@ import java.util.Scanner;
  * with the {@link TaskList} during the application's lifecycle.
  */
 public class TextUI {
-    private final Scanner scanner;
-
+    private static final String DIVIDER = "------------------------------- \n";
+    private static final String BOT_NAME = "SumTingWong";
     private static TaskList taskList;
 
-    private static final String DIVIDER = "------------------------------- \n";
-
-    private static final String BOT_NAME = "SumTingWong";
+    private final Scanner scanner;
 
     /**
      * Creates a UI bound to the provided task list.
@@ -30,7 +28,7 @@ public class TextUI {
      *
      * @return divider string
      */
-    public static String getDIVIDER() {
+    public static String getDivider() {
         return DIVIDER;
     }
 

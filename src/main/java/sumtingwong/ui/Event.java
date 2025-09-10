@@ -3,7 +3,7 @@ package sumtingwong.ui;
 /**
  * A task that spans a period with a start and end.
  */
-public class Event extends Task{
+public class Event extends Task {
 
     protected String from;
     protected String to;
@@ -25,7 +25,7 @@ public class Event extends Task{
     /**
      * Serializes this event into the storage line format.
      *
-     * @return line in the form: E | <isDone> | <description> | <from> | <to>
+     * @return line in the form: E | `isDone` | `description` | `from` | `to`
      */
     public String toFileFormat() {
         return "E" + " | " + super.isDone + " | " + description + " | " + this.from + " | " + this.to;
