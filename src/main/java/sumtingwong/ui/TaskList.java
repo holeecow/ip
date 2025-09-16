@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * In-memory collection of tasks with simple list-like operations.
  */
 public class TaskList {
-    private static ArrayList<Task> tasks;
+    private final ArrayList<Task> tasks;
 
     /**
      * Creates a task list seeded with the provided tasks.
@@ -14,14 +14,15 @@ public class TaskList {
      * @param tasks initial tasks to populate
      */
     public TaskList(ArrayList<Task> tasks) {
-        TaskList.tasks = new ArrayList<>(tasks);
+        assert tasks != null : "Task list cannot be initialized with null";
+        this.tasks = new ArrayList<>(tasks);
     }
 
     /**
      * Creates an empty task list.
      */
     public TaskList() {
-        tasks = new ArrayList<>();
+        this.tasks = new ArrayList<>();
     }
 
     /**
@@ -76,7 +77,7 @@ public class TaskList {
      * @return tasks copy
      */
     public ArrayList<Task> getTasks() {
-        return tasks;
+        return new ArrayList<>(tasks);
     }
 
     /**

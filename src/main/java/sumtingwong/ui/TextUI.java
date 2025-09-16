@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 public class TextUI {
     private static final String DIVIDER = "------------------------------- \n";
     private static final String BOT_NAME = "SumTingWong";
-    protected static TaskList taskList;
+    private final TaskList taskList;
 
     private final Scanner scanner;
     private final Consumer<String> printer;
@@ -31,8 +31,11 @@ public class TextUI {
      * @param printer function to handle output (e.g., System.out::println for console, StringBuilder::append for GUI)
      */
     public TextUI(TaskList taskList, Consumer<String> printer) {
+        assert taskList != null : "TaskList cannot be null";
+        assert printer != null : "Printer function cannot be null";
+        
         this.scanner = new Scanner(System.in);
-        TextUI.taskList = taskList;
+        this.taskList = taskList;
         this.printer = printer;
     }
 
@@ -105,18 +108,29 @@ public class TextUI {
     }
 
     /**
+     * Shows a message when a task is added to the list.
+     *
+     * @param task the task that was added
+     */
+    private void showTaskAddedMessage(Task task) {
+        assert task != null : "Task cannot be null";
+        
+        printer.accept(DIVIDER
+                + "Got it. I've added this task: \n    "
+                + task.toString()
+                + "\nNow you have "
+                + taskList.size()
+                + " tasks in the list \n"
+                + DIVIDER);
+    }
+
+    /**
      * Adds a deadline task to the list and prints feedback.
      *
      * @param deadline the task to add
      */
     public void showDeadlineMessage(Task deadline) {
-        printer.accept(DIVIDER
-                + "Got it. I've added this task: \n    "
-                + deadline.toString()
-                + "\nNow you have "
-                + taskList.size()
-                + " tasks in the list \n"
-                + DIVIDER);
+        showTaskAddedMessage(deadline);
     }
 
     /**
@@ -125,13 +139,7 @@ public class TextUI {
      * @param todo the task to add
      */
     public void showToDoMessage(Task todo) {
-        printer.accept(DIVIDER
-                + "Got it. I've added this task: \n    "
-                + todo.toString()
-                + "\nNow you have "
-                + taskList.size()
-                + " tasks in the list \n"
-                + DIVIDER);
+        showTaskAddedMessage(todo);
     }
 
     /**
@@ -140,13 +148,7 @@ public class TextUI {
      * @param event the task to add
      */
     public void showEventMessage(Task event) {
-        printer.accept(DIVIDER
-                + "Got it. I've added this task: \n    "
-                + event.toString()
-                + "\nNow you have "
-                + taskList.size()
-                + " tasks in the list \n"
-                + DIVIDER);
+        showTaskAddedMessage(event);
     }
 
     /**

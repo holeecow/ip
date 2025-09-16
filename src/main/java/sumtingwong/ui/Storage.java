@@ -38,34 +38,22 @@ public class Storage {
      */
     public static void saveTasks(ArrayList<Task> tasks) {
         try {
-            // create the data directory if it doesn't exist
             File directory = new File("./data");
             if (!directory.exists()) {
                 directory.mkdirs();
             }
 
-            // create the sumtingwong.ui.TaskList.txt file if it doesn't exist
             File file = new File(filePath);
             if (!file.exists()) {
                 file.createNewFile();
             }
 
-            // write tasks to the file
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
                 for (Task task : tasks) {
-                    if (task.getClass() == ToDo.class) {
-                        ToDo todo = (ToDo) task;
-                        writer.write(todo.toFileFormat());
-                    } else if (task.getClass() == Deadline.class) {
-                        Deadline deadline = (Deadline) task;
-                        writer.write(deadline.toFileFormat());
-                    } else {
-                        Event event = (Event) task;
-                        writer.write(event.toFileFormat());
-                    }
+                    assert task != null : "Task list should not contain null tasks";
+                    writer.write(task.toFileFormat());
                     writer.newLine();
                 }
-                // make sure that all data is written
                 writer.flush();
             }
         } catch (IOException e) {
@@ -87,12 +75,10 @@ public class Storage {
         try {
             File file = new File(filePath);
 
-            // if the file doesn't exist, return empty task list
             if (!file.exists()) {
                 return tasks;
             }
 
-            // read tasks from the file and add it to tasks
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 String line;
                 while ((line = reader.readLine()) != null) {

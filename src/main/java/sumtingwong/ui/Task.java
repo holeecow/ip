@@ -3,7 +3,7 @@ package sumtingwong.ui;
 /**
  * Base type for all tasks managed by the application.
  */
-public class Task {
+public abstract class Task {
     protected String description;
     protected boolean isDone;
 
@@ -24,7 +24,6 @@ public class Task {
      * @return "X" if done, otherwise a single space
      */
     public String getStatusIcon() {
-
         return (isDone ? "X" : " ");
     }
 
@@ -41,6 +40,13 @@ public class Task {
     public void markAsNotDone() {
         this.isDone = false;
     }
+
+    /**
+     * Serializes this task into the storage line format.
+     *
+     * @return formatted string representation for file storage
+     */
+    public abstract String toFileFormat();
 
     /**
      * Reconstructs a {@link Task} (or subclass) from its serialized line format.
@@ -61,7 +67,7 @@ public class Task {
             return new Deadline(description, deadline, isDone);
         }
 
-        // task is an sumtingwong.ui.Event
+        // Event task
         String from = parts[3].trim();
         String to = parts[4].trim();
         return new Event(description, from, to, isDone);
