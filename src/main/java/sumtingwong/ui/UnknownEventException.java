@@ -5,13 +5,8 @@ package sumtingwong.ui;
  */
 public class UnknownEventException extends SumTingWongException {
 
-    /**
-     * Creates an exception for an unknown command.
-     *
-     * @param userInput the unrecognized command keyword
-     */
     public UnknownEventException(String userInput) {
-        super("Unknown event type");
+        super("Unknown sumtingwong.ui.Event Type");
         System.out.println("What kind of event is " + userInput + "?????");
     }
 }
