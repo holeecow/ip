@@ -12,11 +12,26 @@ import java.time.format.DateTimeFormatter;
  */
 public class Parser {
 
-    private static boolean isExit = false;
+    private static final String COMMAND_LIST = "list";
+    private static final String COMMAND_UNMARK = "unmark";
+    private static final String COMMAND_MARK = "mark";
+    private static final String COMMAND_DEADLINE = "deadline";
+    private static final String COMMAND_TODO = "todo";
+    private static final String COMMAND_EVENT = "event";
+    private static final String COMMAND_DELETE = "delete";
+    private static final String COMMAND_FIND = "find";
+    private static final String COMMAND_BYE = "bye";
+    
+    private static final String DEADLINE_SEPARATOR = "/by";
+    private static final String EVENT_FROM_SEPARATOR = "/from";
+    private static final String EVENT_TO_SEPARATOR = "/to";
+    private static final String DATE_TIME_PATTERN = "d/M/yyyy";
+    private static final int TIME_STRING_LENGTH = 4;
 
-    private TextUI textUI;
+    private boolean isExit = false;
 
-    private TaskList taskList;
+    private final TextUI textUI;
+    private final TaskList taskList;
 
     /**
      * Constructs a parser that will use the provided {@link TextUI} for output
@@ -42,37 +57,36 @@ public class Parser {
         assert userInput != null : "User input cannot be null";
         assert !userInput.trim().isEmpty() : "User input cannot be empty";
         
-        // Split the input based on spaces to get the command and arguments
         String[] parts = userInput.split(" ", 2);
         String command = parts[0].toLowerCase();
         String description = parts.length > 1 ? parts[1] : "";
 
         switch (command) {
-        case "list":
+        case COMMAND_LIST:
             handleListCommand();
             break;
-        case "unmark":
-            handleUnMarkCommand(description);
+        case COMMAND_UNMARK:
+            handleUnmarkCommand(description);
             break;
-        case "mark":
+        case COMMAND_MARK:
             handleMarkCommand(description);
             break;
-        case "deadline":
+        case COMMAND_DEADLINE:
             handleDeadlineCommand(description);
             break;
-        case "todo":
+        case COMMAND_TODO:
             handleToDoCommand(description);
             break;
-        case "event":
+        case COMMAND_EVENT:
             handleEventCommand(description);
             break;
-        case "delete":
+        case COMMAND_DELETE:
             handleDeleteCommand(description);
             break;
-        case "find":
+        case COMMAND_FIND:
             handleFindCommand(description);
             break;
-        case "bye":
+        case COMMAND_BYE:
             handleByeCommand();
             break;
         default:
@@ -86,13 +100,8 @@ public class Parser {
      * @param description textual index provided by the user
      * @throws NumberFormatException if the index is not a number
      */
-    private void handleUnMarkCommand(String description) {
-        assert description != null : "Description for unmark command cannot be null";
-        assert !description.trim().isEmpty() : "Description for unmark command cannot be empty";
-        
+    private void handleUnmarkCommand(String description) {
         int listIndex = Integer.parseInt(description) - 1;
-        assert listIndex >= 0 : "Task index must be positive (1-based)";
-        
         taskList.get(listIndex).markAsNotDone();
         textUI.showUnMarkMessage(listIndex);
     }
@@ -104,12 +113,7 @@ public class Parser {
      * @throws NumberFormatException if the index is not a number
      */
     private void handleMarkCommand(String description) {
-        assert description != null : "Description for mark command cannot be null";
-        assert !description.trim().isEmpty() : "Description for mark command cannot be empty";
-        
         int listIndex = Integer.parseInt(description) - 1;
-        assert listIndex >= 0 : "Task index must be positive (1-based)";
-        
         taskList.get(listIndex).markAsDone();
         textUI.showMarkMessage(listIndex);
     }
@@ -128,14 +132,9 @@ public class Parser {
      * @throws NumberFormatException if the index is not a number
      */
     private void handleDeleteCommand(String description) {
-        assert description != null : "Description for delete command cannot be null";
-        assert !description.trim().isEmpty() : "Description for delete command cannot be empty";
-        
         int listIndex = Integer.parseInt(description) - 1;
-        assert listIndex >= 0 : "Task index must be positive (1-based)";
 
         Task deletedTask = taskList.get(listIndex);
-        assert deletedTask != null : "Task to delete should not be null";
         taskList.remove(listIndex);
 
         textUI.showDeleteMessage(deletedTask);
@@ -145,7 +144,7 @@ public class Parser {
      * Handles application termination.
      */
     private void handleByeCommand() {
-        this.textUI.showByeMessage();
+        textUI.showByeMessage();
         isExit = true;
     }
 
@@ -181,7 +180,7 @@ public class Parser {
      * @throws NoDescriptionException if the task description is missing
      */
     private void handleDeadlineCommand(String description) {
-        String[] parts = description.split("/by", 2);
+        String[] parts = description.split(DEADLINE_SEPARATOR, 2);
         if (parts.length < 2) {
             throw new NoDeadlineException();
         }
@@ -193,24 +192,20 @@ public class Parser {
         String deadlineDescription = parts[0].trim();
         String deadline = parts[1].trim();
 
-        // check if the first character of deadline is a digit (i.e. if the deadline is in the format "2/12/2019 1800")
+        // Parse structured date-time format (e.g., "2/12/2019 1800")
         if (Character.isDigit(deadline.charAt(0))) {
             String[] deadlineParts = deadline.split(" ");
-            assert deadlineParts.length >= 2 : "Date-time format must have both date and time parts";
 
             String dateStr = deadlineParts[0];
             String timeStr = deadlineParts[1];
-            assert timeStr.length() == 4 : "Time format must be exactly 4 digits (HHMM)";
+            assert timeStr.length() == TIME_STRING_LENGTH : "Time format must be exactly 4 digits (HHMM)";
 
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
             LocalDate date = LocalDate.parse(dateStr, dateFormatter);
 
             int hour = Integer.parseInt(timeStr.substring(0, 2));
             int minute = Integer.parseInt(timeStr.substring(2, 4));
-            assert hour >= 0 && hour <= 23 : "Hour must be between 0 and 23";
-            assert minute >= 0 && minute <= 59 : "Minute must be between 0 and 59";
 
-            // convert the time e.g. 1800 to a LocalTime object
             LocalTime time = LocalTime.of(hour, minute);
 
             Task task = new Deadline(deadlineDescription, time, date, false);
@@ -251,7 +246,7 @@ public class Parser {
      * @throws NoDateException if either /from or /to is missing
      */
     private void handleEventCommand(String description) {
-        String[] parts = description.split("/from", 2);
+        String[] parts = description.split(EVENT_FROM_SEPARATOR, 2);
 
         if (parts[0].isEmpty()) {
             throw new NoDescriptionException();
@@ -262,13 +257,10 @@ public class Parser {
         }
         String eventDescription = parts[0].trim();
 
-        // Split the time part into [start, end]
-        String[] times = parts[1].split("/to", 2);
+        String[] times = parts[1].split(EVENT_TO_SEPARATOR, 2);
         assert times.length == 2 : "Event must have both /from and /to parts";
         String startTime = times[0].trim();
         String endTime = times[1].trim();
-        assert !startTime.isEmpty() : "Event start time cannot be empty";
-        assert !endTime.isEmpty() : "Event end time cannot be empty";
 
         Task task = new Event(eventDescription, startTime, endTime, false);
         taskList.add(task);
