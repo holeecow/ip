@@ -22,9 +22,13 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) {
+        assert stage != null : "Primary stage cannot be null";
+        
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
+            assert ap != null : "Loaded FXML root should not be null";
+            
             Scene scene = new Scene(ap);
             stage.setScene(scene);
 
@@ -32,7 +36,9 @@ public class Main extends Application {
             stage.setMinHeight(220);
             stage.setMinWidth(417);
 
-            fxmlLoader.<MainWindow>getController().setSumTingWong(sumTingWong);
+            MainWindow controller = fxmlLoader.<MainWindow>getController();
+            assert controller != null : "FXML controller should not be null";
+            controller.setSumTingWong(sumTingWong);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

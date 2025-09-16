@@ -12,6 +12,7 @@ public class Launcher {
      * @param args command line arguments passed to the application
      */
     public static void main(String[] args) {
+        assert args != null : "Command line arguments array cannot be null";
         Application.launch(Main.class, args);
     }
 }

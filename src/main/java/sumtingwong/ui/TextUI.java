@@ -31,6 +31,9 @@ public class TextUI {
      * @param printer function to handle output (e.g., System.out::println for console, StringBuilder::append for GUI)
      */
     public TextUI(TaskList taskList, Consumer<String> printer) {
+        assert taskList != null : "TaskList cannot be null";
+        assert printer != null : "Printer function cannot be null";
+        
         this.scanner = new Scanner(System.in);
         TextUI.taskList = taskList;
         this.printer = printer;
@@ -86,6 +89,9 @@ public class TextUI {
      * @param listIndex zero-based index of the task
      */
     public void showUnMarkMessage(int listIndex) {
+        assert listIndex >= 0 : "List index must be non-negative";
+        assert listIndex < taskList.size() : "List index must be within bounds";
+        
         printer.accept(DIVIDER
                 + "OK, I've marked this task as not done yet: \n"
                 + taskList.get(listIndex).toString()
@@ -98,6 +104,9 @@ public class TextUI {
      * @param listIndex zero-based index of the task
      */
     public void showMarkMessage(int listIndex) {
+        assert listIndex >= 0 : "List index must be non-negative";
+        assert listIndex < taskList.size() : "List index must be within bounds";
+        
         printer.accept(DIVIDER
                 + "Nice! I've marked this task as done: \n"
                 + taskList.get(listIndex).toString()
@@ -110,6 +119,9 @@ public class TextUI {
      * @param deadline the task to add
      */
     public void showDeadlineMessage(Task deadline) {
+        assert deadline != null : "Deadline task cannot be null";
+        assert deadline instanceof Deadline : "Task must be a Deadline instance";
+        
         printer.accept(DIVIDER
                 + "Got it. I've added this task: \n    "
                 + deadline.toString()
@@ -125,6 +137,9 @@ public class TextUI {
      * @param todo the task to add
      */
     public void showToDoMessage(Task todo) {
+        assert todo != null : "Todo task cannot be null";
+        assert todo instanceof ToDo : "Task must be a ToDo instance";
+        
         printer.accept(DIVIDER
                 + "Got it. I've added this task: \n    "
                 + todo.toString()
@@ -140,6 +155,9 @@ public class TextUI {
      * @param event the task to add
      */
     public void showEventMessage(Task event) {
+        assert event != null : "Event task cannot be null";
+        assert event instanceof Event : "Task must be an Event instance";
+        
         printer.accept(DIVIDER
                 + "Got it. I've added this task: \n    "
                 + event.toString()
@@ -155,6 +173,8 @@ public class TextUI {
      * @param deletedTask the Task object that has been deleted
      */
     public void showDeleteMessage(Task deletedTask) {
+        assert deletedTask != null : "Deleted task cannot be null";
+        
         printer.accept(DIVIDER
                 + " Noted. I've removed this task: \n    "
                 + deletedTask.toString()
@@ -170,6 +190,8 @@ public class TextUI {
      * @param tasks string representation of the tasks that match the keyword
      */
     public void showFindMessage(String tasks) {
+        assert tasks != null : "Tasks string cannot be null";
+        
         printer.accept(DIVIDER
                 + "Here are the matching tasks in your list: \n"
                 + tasks
