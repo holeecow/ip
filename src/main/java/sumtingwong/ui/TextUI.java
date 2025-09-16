@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 public class TextUI {
     private static final String DIVIDER = "------------------------------- \n";
     private static final String BOT_NAME = "SumTingWong";
-    private final TaskList taskList;
+    protected static TaskList taskList;
 
     private final Scanner scanner;
     private final Consumer<String> printer;
@@ -35,7 +35,7 @@ public class TextUI {
         assert printer != null : "Printer function cannot be null";
         
         this.scanner = new Scanner(System.in);
-        this.taskList = taskList;
+        TextUI.taskList = taskList;
         this.printer = printer;
     }
 
@@ -89,6 +89,9 @@ public class TextUI {
      * @param listIndex zero-based index of the task
      */
     public void showUnMarkMessage(int listIndex) {
+        assert listIndex >= 0 : "List index must be non-negative";
+        assert listIndex < taskList.size() : "List index must be within bounds";
+        
         printer.accept(DIVIDER
                 + "OK, I've marked this task as not done yet: \n"
                 + taskList.get(listIndex).toString()
@@ -101,27 +104,13 @@ public class TextUI {
      * @param listIndex zero-based index of the task
      */
     public void showMarkMessage(int listIndex) {
+        assert listIndex >= 0 : "List index must be non-negative";
+        assert listIndex < taskList.size() : "List index must be within bounds";
+        
         printer.accept(DIVIDER
                 + "Nice! I've marked this task as done: \n"
                 + taskList.get(listIndex).toString()
                 + "\n" + DIVIDER);
-    }
-
-    /**
-     * Shows a message when a task is added to the list.
-     *
-     * @param task the task that was added
-     */
-    private void showTaskAddedMessage(Task task) {
-        assert task != null : "Task cannot be null";
-        
-        printer.accept(DIVIDER
-                + "Got it. I've added this task: \n    "
-                + task.toString()
-                + "\nNow you have "
-                + taskList.size()
-                + " tasks in the list \n"
-                + DIVIDER);
     }
 
     /**
@@ -130,7 +119,16 @@ public class TextUI {
      * @param deadline the task to add
      */
     public void showDeadlineMessage(Task deadline) {
-        showTaskAddedMessage(deadline);
+        assert deadline != null : "Deadline task cannot be null";
+        assert deadline instanceof Deadline : "Task must be a Deadline instance";
+        
+        printer.accept(DIVIDER
+                + "Got it. I've added this task: \n    "
+                + deadline.toString()
+                + "\nNow you have "
+                + taskList.size()
+                + " tasks in the list \n"
+                + DIVIDER);
     }
 
     /**
@@ -139,7 +137,16 @@ public class TextUI {
      * @param todo the task to add
      */
     public void showToDoMessage(Task todo) {
-        showTaskAddedMessage(todo);
+        assert todo != null : "Todo task cannot be null";
+        assert todo instanceof ToDo : "Task must be a ToDo instance";
+        
+        printer.accept(DIVIDER
+                + "Got it. I've added this task: \n    "
+                + todo.toString()
+                + "\nNow you have "
+                + taskList.size()
+                + " tasks in the list \n"
+                + DIVIDER);
     }
 
     /**
@@ -148,7 +155,16 @@ public class TextUI {
      * @param event the task to add
      */
     public void showEventMessage(Task event) {
-        showTaskAddedMessage(event);
+        assert event != null : "Event task cannot be null";
+        assert event instanceof Event : "Task must be an Event instance";
+        
+        printer.accept(DIVIDER
+                + "Got it. I've added this task: \n    "
+                + event.toString()
+                + "\nNow you have "
+                + taskList.size()
+                + " tasks in the list \n"
+                + DIVIDER);
     }
 
     /**
@@ -157,6 +173,8 @@ public class TextUI {
      * @param deletedTask the Task object that has been deleted
      */
     public void showDeleteMessage(Task deletedTask) {
+        assert deletedTask != null : "Deleted task cannot be null";
+        
         printer.accept(DIVIDER
                 + " Noted. I've removed this task: \n    "
                 + deletedTask.toString()
@@ -172,6 +190,8 @@ public class TextUI {
      * @param tasks string representation of the tasks that match the keyword
      */
     public void showFindMessage(String tasks) {
+        assert tasks != null : "Tasks string cannot be null";
+        
         printer.accept(DIVIDER
                 + "Here are the matching tasks in your list: \n"
                 + tasks

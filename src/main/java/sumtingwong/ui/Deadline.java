@@ -25,6 +25,9 @@ public class Deadline extends Task {
      */
     public Deadline(String description, String by, boolean isDone) {
         super(description, isDone);
+        assert by != null : "Deadline 'by' field cannot be null";
+        assert !by.trim().isEmpty() : "Deadline 'by' field cannot be empty";
+        
         this.by = by;
     }
 
@@ -38,6 +41,9 @@ public class Deadline extends Task {
      */
     public Deadline(String description, LocalTime time, LocalDate date, boolean isDone) {
         super(description, isDone);
+        assert time != null : "Deadline time cannot be null";
+        assert date != null : "Deadline date cannot be null";
+        
         this.time = time;
         this.date = date;
         this.by = "";
@@ -54,9 +60,13 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return this.by.isEmpty()
-                ? "[D]" + super.toString() + " (by: " + this.date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + " "
-                    + this.time.format(DateTimeFormatter.ofPattern("h:mm a")) + ")"
-                : "[D]" + super.toString() + " (by: " + by + ")";
+        if (this.by.isEmpty()) {
+            assert this.date != null : "Date should not be null when by is empty";
+            assert this.time != null : "Time should not be null when by is empty";
+            return "[D]" + super.toString() + " (by: " + this.date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + " "
+                    + this.time.format(DateTimeFormatter.ofPattern("h:mm a")) + ")";
+        } else {
+            return "[D]" + super.toString() + " (by: " + by + ")";
+        }
     }
 }

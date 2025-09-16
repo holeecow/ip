@@ -6,7 +6,8 @@ package sumtingwong.ui;
 public class UnknownEventException extends SumTingWongException {
 
     public UnknownEventException(String userInput) {
-        super("Unknown command: " + userInput);
-        assert userInput != null : "Command cannot be null";
+        super("Unknown sumtingwong.ui.Event Type");
+        assert userInput != null : "User input for unknown command cannot be null";
+        System.out.println("What kind of event is " + userInput + "?????");
     }
 }
