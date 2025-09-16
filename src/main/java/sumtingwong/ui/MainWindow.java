@@ -41,6 +41,8 @@ public class MainWindow extends AnchorPane {
      * @param d the SumTingWong instance to use for processing user input
      */
     public void setSumTingWong(SumTingWong d) {
+        assert d != null : "SumTingWong instance cannot be null";
+        
         sumTingWong = d;
         String welcomeMessage = getDivider() + "Hello! I'm SumTingWong\n"
                 + "What can I do for you? -.-\n" + getDivider();
@@ -60,8 +62,13 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     private void handleUserInput() {
+        assert sumTingWong != null : "SumTingWong instance must be set before handling input";
+        
         String input = userInput.getText();
+        assert input != null : "User input should not be null";
+        
         String response = sumTingWong.getResponse(input);
+        assert response != null : "Response from SumTingWong should not be null";
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getDukeDialog(response, dukeImage)

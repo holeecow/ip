@@ -14,6 +14,7 @@ public class TaskList {
      * @param tasks initial tasks to populate
      */
     public TaskList(ArrayList<Task> tasks) {
+        assert tasks != null : "Task list cannot be initialized with null";
         TaskList.tasks = new ArrayList<>(tasks);
     }
 
@@ -30,6 +31,7 @@ public class TaskList {
      * @param task the task to add
      */
     public void add(Task task) {
+        assert task != null : "Cannot add null task to list";
         tasks.add(task);
     }
 
@@ -40,6 +42,8 @@ public class TaskList {
      * @return the task at the index
      */
     public Task get(int index) {
+        assert index >= 0 : "Index must be non-negative";
+        assert index < tasks.size() : "Index must be within list bounds";
         return tasks.get(index);
     }
 
@@ -49,6 +53,8 @@ public class TaskList {
      * @param index zero-based index
      */
     public void remove(int index) {
+        assert index >= 0 : "Index must be non-negative";
+        assert index < tasks.size() : "Index must be within list bounds";
         tasks.remove(index);
     }
 
@@ -86,9 +92,13 @@ public class TaskList {
      * @return list of matching tasks, in their original order
      */
     public ArrayList<Task> findByKeyword(String keyword) {
+        assert keyword != null : "Search keyword cannot be null";
+        assert !keyword.trim().isEmpty() : "Search keyword cannot be empty";
+        
         ArrayList<Task> result = new ArrayList<>();
         String needle = keyword.toLowerCase();
         for (Task task : tasks) {
+            assert task != null : "Task list should not contain null tasks";
             if (task.description != null && task.description.toLowerCase().contains(needle)) {
                 result.add(task);
             }
