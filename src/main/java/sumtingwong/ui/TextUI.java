@@ -197,4 +197,60 @@ public class TextUI {
                 + tasks
                 + DIVIDER);
     }
+
+    /**
+     * Shows a message when tags are added to a task.
+     *
+     * @param task the task that was tagged
+     * @param tagsString the tags that were added
+     */
+    public void showTagAddedMessage(Task task, String tagsString) {
+        assert task != null : "Task cannot be null";
+        assert tagsString != null : "Tags string cannot be null";
+        
+        printer.accept(DIVIDER
+                + "Got it! I've added these tags to the task:\n    "
+                + task.toString()
+                + "\nAdded tags: " + tagsString + "\n"
+                + DIVIDER);
+    }
+
+    /**
+     * Shows a message when tags are removed from a task.
+     *
+     * @param task the task that was untagged
+     * @param tagsString the tags that were removed
+     */
+    public void showTagRemovedMessage(Task task, String tagsString) {
+        assert task != null : "Task cannot be null";
+        assert tagsString != null : "Tags string cannot be null";
+        
+        printer.accept(DIVIDER
+                + "Got it! I've removed these tags from the task:\n    "
+                + task.toString()
+                + "\nRemoved tags: " + tagsString + "\n"
+                + DIVIDER);
+    }
+
+    /**
+     * Shows filtered tasks by tags.
+     *
+     * @param tasks string representation of the filtered tasks
+     * @param tags the tags that were used for filtering
+     */
+    public void showFilteredTasksMessage(String tasks, String tags) {
+        assert tasks != null : "Tasks string cannot be null";
+        assert tags != null : "Tags string cannot be null";
+        
+        if (tasks.trim().isEmpty()) {
+            printer.accept(DIVIDER
+                    + "No tasks found with tags: " + tags + "\n"
+                    + DIVIDER);
+        } else {
+            printer.accept(DIVIDER
+                    + "Here are the tasks with tags (" + tags + "):\n"
+                    + tasks
+                    + DIVIDER);
+        }
+    }
 }

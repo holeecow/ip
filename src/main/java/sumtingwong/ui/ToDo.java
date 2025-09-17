@@ -19,10 +19,10 @@ public class ToDo extends Task {
     /**
      * Serializes this todo into the storage line format.
      *
-     * @return line in the form: T | `isDone` | `description`
+     * @return line in the form: T | `isDone` | `description` | `tags`
      */
     public String toFileFormat() {
-        return "T" + " | " + super.isDone + " | " + description;
+        return "T" + " | " + super.isDone + " | " + description + " | " + getTagsString();
     }
 
     @Override
