@@ -20,6 +20,9 @@ public class Parser {
     private static final String COMMAND_EVENT = "event";
     private static final String COMMAND_DELETE = "delete";
     private static final String COMMAND_FIND = "find";
+    private static final String COMMAND_TAG = "tag";
+    private static final String COMMAND_UNTAG = "untag";
+    private static final String COMMAND_FILTER = "filter";
     private static final String COMMAND_BYE = "bye";
     
     private static final String DEADLINE_SEPARATOR = "/by";
@@ -85,6 +88,15 @@ public class Parser {
             break;
         case COMMAND_FIND:
             handleFindCommand(description);
+            break;
+        case COMMAND_TAG:
+            handleTagCommand(description);
+            break;
+        case COMMAND_UNTAG:
+            handleUntagCommand(description);
+            break;
+        case COMMAND_FILTER:
+            handleFilterCommand(description);
             break;
         case COMMAND_BYE:
             handleByeCommand();
@@ -266,6 +278,113 @@ public class Parser {
         taskList.add(task);
 
         textUI.showEventMessage(task);
+    }
+
+    /**
+     * Adds tags to a task.
+     * Format: tag <task_index> <tag1> [tag2] [tag3] ...
+     *
+     * @param description the command arguments
+     */
+    private void handleTagCommand(String description) {
+        assert description != null : "Description for tag command cannot be null";
+        assert !description.trim().isEmpty() : "Description for tag command cannot be empty";
+        
+        String[] parts = description.trim().split("\\s+", 2);
+        if (parts.length < 2) {
+            throw new IllegalArgumentException("Tag command requires task index and at least one tag");
+        }
+        
+        try {
+            int taskIndex = Integer.parseInt(parts[0]) - 1; // Convert to 0-based
+            assert taskIndex >= 0 : "Task index must be positive (1-based)";
+            
+            Task task = taskList.get(taskIndex);
+            
+            // Parse tags
+            String[] tagNames = parts[1].split("\\s+");
+            for (String tagName : tagNames) {
+                if (!tagName.isEmpty()) {
+                    task.addTag(tagName);
+                }
+            }
+            
+            textUI.showTagAddedMessage(task, parts[1]);
+            
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid task index: " + parts[0]);
+        }
+    }
+
+    /**
+     * Removes tags from a task.
+     * Format: untag <task_index> <tag1> [tag2] [tag3] ...
+     *
+     * @param description the command arguments
+     */
+    private void handleUntagCommand(String description) {
+        assert description != null : "Description for untag command cannot be null";
+        assert !description.trim().isEmpty() : "Description for untag command cannot be empty";
+        
+        String[] parts = description.trim().split("\\s+", 2);
+        if (parts.length < 2) {
+            throw new IllegalArgumentException("Untag command requires task index and at least one tag");
+        }
+        
+        try {
+            int taskIndex = Integer.parseInt(parts[0]) - 1; // Convert to 0-based
+            assert taskIndex >= 0 : "Task index must be positive (1-based)";
+            
+            Task task = taskList.get(taskIndex);
+            
+            // Parse tags to remove
+            String[] tagNames = parts[1].split("\\s+");
+            for (String tagName : tagNames) {
+                if (!tagName.isEmpty()) {
+                    task.removeTag(tagName);
+                }
+            }
+            
+            textUI.showTagRemovedMessage(task, parts[1]);
+            
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid task index: " + parts[0]);
+        }
+    }
+
+    /**
+     * Filters tasks by tags.
+     * Format: filter <tag1> [tag2] [tag3] ...
+     *
+     * @param description the tag names to filter by
+     */
+    private void handleFilterCommand(String description) {
+        if (description == null || description.trim().isEmpty()) {
+            throw new IllegalArgumentException("Filter command requires at least one tag");
+        }
+        
+        String[] tagNames = description.trim().split("\\s+");
+        StringBuilder results = new StringBuilder();
+        int displayIndex = 1;
+        
+        for (int i = 0; i < taskList.size(); i++) {
+            Task task = taskList.get(i);
+            boolean hasAllTags = true;
+            
+            // Check if task has all specified tags
+            for (String tagName : tagNames) {
+                if (!task.hasTag(tagName)) {
+                    hasAllTags = false;
+                    break;
+                }
+            }
+            
+            if (hasAllTags) {
+                results.append(displayIndex++).append(". ").append(task.toString()).append("\n");
+            }
+        }
+        
+        textUI.showFilteredTasksMessage(results.toString(), description.trim());
     }
 
     /**

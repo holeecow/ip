@@ -30,10 +30,10 @@ public class Event extends Task{
     /**
      * Serializes this event into the storage line format.
      *
-     * @return line in the form: E | <isDone> | <description> | <from> | <to>
+     * @return line in the form: E | <isDone> | <description> | <from> | <to> | <tags>
      */
     public String toFileFormat() {
-        return "E" + " | " + super.isDone + " | " + description + " | " + this.from + " | " + this.to;
+        return "E" + " | " + super.isDone + " | " + description + " | " + this.from + " | " + this.to + " | " + getTagsString();
     }
 
     @Override
